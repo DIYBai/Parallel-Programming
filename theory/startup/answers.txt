@@ -1,0 +1,15 @@
+1. Moore's Law states that the amount of transistors per unit area doubles every
+   two years. More transistors mean more 'complex designs' which in turn lead to
+   better and better performance.
+
+2. An increase in clock speed directly correlates to an increase in instruction
+   execution speed. If processor computational power is measured in FLOPS, a 0.5
+   GHz processor could outperform a 1 GHz processor if the lower-clock speed
+   processor has more cores/threads to take advantage of parallelization.
+
+3. We can measure and compare computer capability by looking at FLOPS,
+   performance/Watt, and throughput. Throughput measures overall performance for
+   a system, but not for individual programs. Performance/Watt showcases a kind
+   of efficiency increase but obscures the power wall. FLOPS is the standard but
+   floating point operations are, to a certain extent, fundamentally different
+   from integer operations and do not capture all of the associated complexities.

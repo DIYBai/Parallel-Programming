@@ -1,0 +1,32 @@
+1. Speedup is the ratio of the time it takes for a baseline system to do a task
+   divided by the amount of time it takes for some other system to do that task.
+   As such, it measures relative performance (for instance, a speedup of 2x means
+   that the other system takes half the time/is 2x as fast).
+
+2. Efficiency measures how efficient the speedup from additional cores is. Higher
+   efficiency means better scaling.
+
+3a. The span is 15s.
+3b. Using a single processor, the expected runtime is 30s.
+3c. Using 2 processors, the expected speedup is 30s/20s or 1.5x. The efficiency is thus 0.75.
+3d. Using 4 processors, the expected speedup is 30s/15s or 2x. The efficiency is 0.5.
+3e. Using 10 processors, the expected speedup is (still) 30s/15s or 2x. The efficiency is 0.2.
+3f. To get a 10x speedup, (serial work + parallel work)/(serial work + (parallel work/P))
+    must equal 10. Serial work is a constant - 10s. Thus we have (10 + Wp)/(10 + (Wp/P)) = 10.
+    Wp/P is always 5 because each task takes 5 seconds, so (10 + Wp)/15 = 10 and
+    10 + Wp = 150. Wp = 140. Subtracting the 20s of already-existing Wp, we get
+    that we must add 120s of Wp over 24 tasks thus we need 24 more nodes for a
+    total of 28 nodes. The efficiency would be 10/28.
+
+?4a. 0.1m / 3*10^8m/s = 1/(3*10^9) s of latency minimum, one way for signal to travel.
+    1/(3*10^9) s * 3*10^9 cycles/s = 1 cycle.
+
+    CPU must wait one cycle while signal is being sent, one cycle while memory
+    module reads the memory location, and one cycle while the memory module
+    sends back a signal.
+
+    o we need to double to account for fetch?
+    Does processor need to wait for two cycles? One while signal is sent and one
+    while signal is returning? Is the memory access instant once signal is received,
+    or is there overhead there too?
+?4b. The bandwidth is 256 bits.

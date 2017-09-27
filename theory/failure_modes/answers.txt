@@ -1,0 +1,19 @@
+1. A race condition is when two or more threads operate on the same memory without
+   proper synchronization. If multiple threads need to access the same information
+   and at least one of them changes it in some way, there can be a race condition.
+
+   Strangled scaling is when locks create an unnecessary bottleneck. It's like
+   reverse parallelization or serialization. We can look for what actually needs
+   to be 'locked' and what does not (like the sleep command from the class example).
+
+   Deadlocks occur when at least two threads cannot continue execution because it
+   requires a lock set by some other thread to be unset but that thread cannot
+   unset the lock because it too requires a lock to be unset. Both (or more) threads
+   'have' what the other 'needs', and cannot continue without everything. We might
+   detect their presence by looking at the order in which locks are set.
+
+2. Load imbalance is when work is not distributed evenly between threads.
+   Yes, it does complicate reasoning about performance because in our examples,
+   all tasks took the same amount of work so there was a minimum of wasted clock
+   cycles, whereas if one task took a lot longer, then the critical path might
+   increase and some processors would be idle.

@@ -18,15 +18,9 @@
     that we must add 120s of Wp over 24 tasks thus we need 24 more nodes for a
     total of 28 nodes. The efficiency would be 10/28.
 
-?4a. 0.1m / 3*10^8m/s = 1/(3*10^9) s of latency minimum, one way for signal to travel.
+4a. 0.1m / 3*10^8m/s = 1/(3*10^9) s of latency minimum, one way for signal to travel.
     1/(3*10^9) s * 3*10^9 cycles/s = 1 cycle.
-
     CPU must wait one cycle while signal is being sent, one cycle while memory
     module reads the memory location, and one cycle while the memory module
-    sends back a signal.
-
-    o we need to double to account for fetch?
-    Does processor need to wait for two cycles? One while signal is sent and one
-    while signal is returning? Is the memory access instant once signal is received,
-    or is there overhead there too?
-?4b. The bandwidth is 256 bits.
+    sends back a signal for a total of 3 cycles of waiting.
+4b. The bandwidth is 256 bits * 3.0 Ghz = 768*10^9 bits/sec.

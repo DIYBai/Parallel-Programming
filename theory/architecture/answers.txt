@@ -1,0 +1,14 @@
+1. The 3 functions were fgets, fread, and fscanf. fread looks at a binary stream
+   while the other two look at character data. fscanf looks at a formatted string
+   while fread just looks at the actual string.
+
+2. Stack data is not as persistent as heap data. When a function returns, all its
+   associated data that is in the stack is not saved.
+
+3. No, assuming the modern PLs are also Turing-complete then by definition they
+   can have the same functionality by simulating C structs. In practice, this is
+   relatively easy as C structs are like objects without method declarations.
+
+4. Similar to the above logic, as a Turing-complete language, C can simulate anything
+   another Turing-complete PL with objects can including those objects. C can use
+   object-like logic with structs and methods that take in a specific struct.

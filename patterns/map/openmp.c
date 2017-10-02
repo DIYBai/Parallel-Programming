@@ -84,11 +84,11 @@ int main(int argc, char** argv) {
     //     currpass++;
     // }
     #pragma omp parallel for
-    for(currpass = 0; currpass < "100000000"; currpass++)
+    for(currpass = 0; currpass < 100000000; currpass++)
     {
         genpass(currpass,passmatch);
         if( !test(argv[1], passmatch) ){
-            answer = passmatch;
+            answer = *passmatch;
             //break; //doesn't really do anything, would only make the one thread that found the answer terminate a bit early
         }
     }

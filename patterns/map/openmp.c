@@ -64,7 +64,7 @@ int main(int argc, char** argv) {
     }
 
     // char passmatch[9]; // buffer for the matched password
-    char* answer = malloc(sizeof(char)*10);
+    char answer[9];
     //long currpass=0; // current password under consideration
 
     // variables for the timer
@@ -89,7 +89,8 @@ int main(int argc, char** argv) {
         char passmatch[9]; // buffer for the matched password
         genpass(currpass,passmatch);
         if( !test(argv[1], passmatch) ){
-            answer = passmatch;
+            // answer = passmatch;
+            strncopy(answer, passmatch, 10);
             //break; //doesn't really do anything, would only make the one thread that found the answer terminate a bit early
         }
     }

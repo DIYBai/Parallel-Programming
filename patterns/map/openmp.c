@@ -84,9 +84,9 @@ int main(int argc, char** argv) {
     //     currpass++;
     // }
     #pragma omp parallel for
-    char passmatch[9]; // buffer for the matched password
     for(long currpass = 0; currpass < 100000000; currpass++)
     {
+        char passmatch[9]; // buffer for the matched password
         genpass(currpass,passmatch);
         if( !test(argv[1], passmatch) ){
             answer = passmatch;

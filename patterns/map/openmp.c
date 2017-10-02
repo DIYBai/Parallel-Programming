@@ -63,9 +63,9 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    char passmatch[9]; // buffer for the matched password
-    char answer[9];
-    long currpass=0; // current password under consideration
+    // char passmatch[9]; // buffer for the matched password
+    char* answer = malloc(sizeof(char)*10);
+    //long currpass=0; // current password under consideration
 
     // variables for the timer
     struct timespec start_time;
@@ -84,11 +84,12 @@ int main(int argc, char** argv) {
     //     currpass++;
     // }
     #pragma omp parallel for
-    for(currpass = 0; currpass < 100000000; currpass++)
+    char passmatch[9]; // buffer for the matched password
+    for(long currpass = 0; currpass < 100000000; currpass++)
     {
         genpass(currpass,passmatch);
         if( !test(argv[1], passmatch) ){
-            answer = *passmatch;
+            answer = passmatch;
             //break; //doesn't really do anything, would only make the one thread that found the answer terminate a bit early
         }
     }

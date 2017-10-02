@@ -88,7 +88,7 @@ int main(int argc, char** argv) {
         genpass(currpass,passmatch);
         if( !test(argv[1], passmatch) ){
             // answer = passmatch;
-            strncpy(answer, passmatch, 10);
+            strncpy(answer, passmatch, 8);
             //break; //doesn't really do anything, would only make the one thread that found the answer terminate a bit early
         }
     }

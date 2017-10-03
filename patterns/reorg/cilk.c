@@ -6,6 +6,8 @@
 #include <stdlib.h>
 #include <math.h>
 #include <time.h>
+#include <cilk/cilk.h>
+#include <cilk/reducer_opadd.h>
 
 /* struct to hold objects attributes */
 struct phaseballs {
@@ -66,17 +68,20 @@ void place_uniformly(int sx, int ex, int sy, int ey, int sz, int ez, struct volu
 
 // Projects 3D volume to 11x11 2D map and report centroid
 void post_process(struct volume* v, float* cx, float* cy) {
-    double mass_sum=0.0;
-    double wx=0.0;
-    double wy=0.0;
+    // double mass_sum=0.0;
+    // double wx=0.0;
+    // double wy=0.0;
+    cilk::reducer< cilk::op_add <double> > mass_sum (0.0);
+    cilk::reducer< cilk::op_add <double> > wx (0.0);
+    cilk::reducer< cilk::op_add <double> > wy (0.0);
     struct phaseballs *o = v->objects;
-    for(int i=0; i<v->last; i++) {
-        mass_sum += o->mass[i];
-        wx += o->x[i] * o->mass[i];
-        wy += o->y[i] * o->mass[i];
+    cilk_for(int i=0; i<v->last; i++) {
+        *mass_sum += o->mass[i];
+        *wx += o->x[i] * o->mass[i];
+        *wy += o->y[i] * o->mass[i];
     }
-    *cx = wx/mass_sum;
-    *cy = wy/mass_sum;
+    *cx = wx.getvalue() / mass_sum.getvalue();
+    *cy = wy.getvalue() / mass_sum.getvalue();
 
     return;
 }

@@ -39,7 +39,7 @@ void place_uniformly(int sx, int ex, int sy, int ey, int sz, int ez, struct volu
     long z_dim = (1 + ez-sz);
     long size =  x_dim * y_dim * z_dim;
 
-    struct phaseballs* n = malloc( sizeof(struct phaseballs*) );
+    struct phaseballs* n = malloc( sizeof(struct phaseballs) );
     n->x = malloc(sizeof(float) * size);
     n->y = malloc(sizeof(float) * size);
     n->z = malloc(sizeof(float) * size);

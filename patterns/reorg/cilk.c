@@ -44,7 +44,6 @@ void place_uniformly(int sx, int ex, int sy, int ey, int sz, int ez, struct volu
     n->y = malloc(sizeof(float) * size);
     n->z = malloc(sizeof(float) * size);
     n->mass = malloc(sizeof(float) * size);
-    n->size = size;
 
     v->objects = n;
     for(int i=sx; i<=ex; i++) {

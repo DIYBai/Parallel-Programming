@@ -49,12 +49,12 @@ void place_uniformly(int sx, int ex, int sy, int ey, int sz, int ez, struct volu
     for(int i=sx; i<=ex; i++) {
         for(int j=sy; j<=ey; j++) {
             for(int k=sz; k<=ez; k++) {
-                long idx = k + (j*z_dim) + (i*y_dim*z_dim);
-                (n->x)[idx] = i;
-                (n->y)[idx] = j;
-                (n->z)[idx] = k;
+                int idx = k + (j*z_dim) + (i*y_dim*z_dim);
+                n->x[idx] = i;
+                n->y[idx] = j;
+                n->z[idx] = k;
                 // n->mass[idx] = 1;
-                (n->mass)[idx] = fabs( (n->x)[idx] ) + fabs( (n->y)[idx] ) + fabs( (n->z)[idx] );
+                n->mass[idx] = fabs(n->x[idx]) + fabs(n->y[idx]) + fabs(n->z[idx]);
                 v->last++;
                 // volume_append(v,n);
             }

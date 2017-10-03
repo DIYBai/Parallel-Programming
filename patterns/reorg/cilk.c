@@ -53,7 +53,7 @@ void place_uniformly(int sx, int ex, int sy, int ey, int sz, int ez, struct volu
                 n->x[idx] = i;
                 n->y[idx] = j;
                 n->z[idx] = k;
-                printf("x: %f  y: %f  z: %f\n", n->x[idx], n->y[idx], n->z[idx]);
+                printf("x: %f  y: %f  z: %f  idx: %d\n", n->x[idx], n->y[idx], n->z[idx], idx);
                 // n->mass[idx] = 1;
                 n->mass[idx] = fabs(n->x[idx]) + fabs(n->y[idx]) + fabs(n->z[idx]);
                 v->last++;

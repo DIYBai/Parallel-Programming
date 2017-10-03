@@ -56,6 +56,7 @@ void place_uniformly(int sx, int ex, int sy, int ey, int sz, int ez, struct volu
                 // n->mass[idx] = 1;
                 n->mass[idx] = fabs(n->x[idx]) + fabs(n->y[idx]) + fabs(n->z[idx]);
                 v->last++;
+                printf("Reached here");
                 // volume_append(v,n);
             }
         }

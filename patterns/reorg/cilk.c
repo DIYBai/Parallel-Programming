@@ -71,18 +71,24 @@ void post_process(struct volume* v, float* cx, float* cy) {
     // double mass_sum=0.0;
     // double wx=0.0;
     // double wy=0.0;
-    reducer< op_add<double> > mass_sum (0.0);
-    reducer< op_add<double> > wx (0.0);
-    reducer< op_add<double> > wy (0.0);
+    CILK_C_REDUCER_OPADD(mass_sum, double, 0.0);
+    CILK_C_REDUCER_OPADD(wx, double, 0.0);
+    CILK_C_REDUCER_OPADD(wy, double, 0.0);
+    CILK_C_REGISTER_REDUCER(mass_sum);
+    CILK_C_REGISTER_REDUCER(wx);
+    CILK_C_REGISTER_REDUCER(wy);
     struct phaseballs *o = v->objects;
     cilk_for(int i=0; i<v->last; i++) {
-        *mass_sum += o->mass[i];
-        *wx += o->x[i] * o->mass[i];
-        *wy += o->y[i] * o->mass[i];
+        REDUCER_VIEW(mass_sum) += o->mass[i];
+        REDUCER_VIEW(wx) += o->x[i] * o->mass[i];
+        REDUCER_VIEW(wy) += o->y[i] * o->mass[i];
     }
-    *cx = wx.getvalue() / mass_sum.getvalue();
-    *cy = wy.getvalue() / mass_sum.getvalue();
+    *cx = wx.value / mass_sum.value;
+    *cy = wy.value / mass_sum.value;
 
+    CILK_C_UNREGISTER_REDUCER(mass_sum);
+    CILK_C_UNREGISTER_REDUCER(wx);
+    CILK_C_UNREGISTER_REDUCER(wy);
     return;
 }
 

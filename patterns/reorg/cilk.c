@@ -54,7 +54,7 @@ void place_uniformly(int sx, int ex, int sy, int ey, int sz, int ez, struct volu
                 n->y[idx] = j;
                 n->z[idx] = k;
                 // n->mass[idx] = 1;
-                n->mass[idx] = fabs(n->x[idx])+fabs(n->y[idx])+fabs(n->z[idx]);
+                (n->mass)[idx] = fabs( (n->x)[idx] )+fabs( (n->y)[idx] )+fabs( (n->z)[idx] );
                 v->last++;
                 // volume_append(v,n);
             }

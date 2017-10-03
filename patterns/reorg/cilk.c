@@ -71,9 +71,6 @@ void post_process(struct volume* v, float* cx, float* cy) {
     // double mass_sum=0.0;
     // double wx=0.0;
     // double wy=0.0;
-    // cilk::reducer< cilk::op_add<double> > mass_sum (0.0);
-    // cilk::reducer< cilk::op_add<double> > wx (0.0);
-    // cilk::reducer< cilk::op_add<double> > wy (0.0);
     reducer< op_add<double> > mass_sum (0.0);
     reducer< op_add<double> > wx (0.0);
     reducer< op_add<double> > wy (0.0);

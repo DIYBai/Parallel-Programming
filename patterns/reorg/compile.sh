@@ -10,7 +10,7 @@ gcc -o centroid_openmp -fopenmp openmp.c
 gcc -g -o centroid_cilk -fcilkplus cilk.c
 
 # Compile the tbb version
-g++ -o centroid_tbb tbb.c -ltbb
+# g++ -o centroid_tbb tbb.c -ltbb
 
 # Compile the MPI version
-mpicc -o centroid_mpi mpi.c
+# mpicc -o centroid_mpi mpi.c

@@ -120,7 +120,7 @@ void apply_stencil(const int radius, const double stddev, const int rows, const 
                 }
             }
             //convert blur to greyscale sort of
-            out[out_offset].intensity = (out[out_offset].red + out[out_offset].green + out[out_offset].blue) / 3
+            out[out_offset].intensity = (out[out_offset].red + out[out_offset].green + out[out_offset].blue) / 3;
         }
     }
 
@@ -190,18 +190,18 @@ int main( int argc, char* argv[] ) {
         outPixels[i].blue = 0.0;
     }
 
-    pixel * wpOutPixels = (pixel *) malloc(rows * cols * sizeof(pixel));
+    pixel * pwOutPixels = (pixel *) malloc(rows * cols * sizeof(pixel));
     // for(int i = 0; i < rows * cols; ++i) {
-    //     wpOutPixels[i].red = 0.0;
-    //     wpOutPixels[i].green = 0.0;
-    //     wpOutPixels[i].blue = 0.0;
+    //     pwOutPixels[i].red = 0.0;
+    //     pwOutPixels[i].green = 0.0;
+    //     pwOutPixels[i].blue = 0.0;
     // }
 
     // Do the stencil
     struct timespec start_time;
     struct timespec end_time;
     clock_gettime(CLOCK_MONOTONIC,&start_time);
-    apply_stencil(3, 32.0, rows, cols, imagePixels, outPixels, wpOutPixels);
+    apply_stencil(3, 32.0, rows, cols, imagePixels, outPixels, pwOutPixels);
     clock_gettime(CLOCK_MONOTONIC,&end_time);
     long msec = (end_time.tv_sec - start_time.tv_sec)*1000 + (end_time.tv_nsec - start_time.tv_nsec)/1000000;
     printf("Stencil application took %dms\n",msec);
@@ -212,9 +212,9 @@ int main( int argc, char* argv[] ) {
     for(int i = 0; i < rows; ++i) {
         for(int j = 0; j < cols; ++j) {
             const size_t offset = i + (j*rows);
-            dest.at<Vec3b>(i, j) = Vec3b(floor(wpOutPixels[offset].red * 255.0),
-                                         floor(wpOutPixels[offset].green * 255.0),
-                                         floor(wpOutPixels[offset].blue * 255.0));
+            dest.at<Vec3b>(i, j) = Vec3b(floor(pwOutPixels[offset].red * 255.0),
+                                         floor(pwOutPixels[offset].green * 255.0),
+                                         floor(pwOutPixels[offset].blue * 255.0));
         }
     }
 

@@ -4,6 +4,7 @@
 #include <iostream>
 #include <opencv2/opencv.hpp>
 #include <time.h>
+#include <cilk/cilk.h>
 
 using namespace cv;
 
@@ -100,7 +101,7 @@ void apply_stencil(const int radius, const double stddev, const int rows, const 
     double kernel[dim*dim];
     gaussian_kernel(dim, dim, stddev, kernel);
     // For each pixel in the image...
-    for(int i = 0; i < rows; ++i) {
+    cilk_for(int i = 0; i < rows; ++i) {
         for(int j = 0; j < cols; ++j) {
             const int out_offset = i + (j*rows);
             // ...apply the template centered on the pixel...
@@ -128,7 +129,7 @@ void apply_stencil(const int radius, const double stddev, const int rows, const 
     prewittX_kernel(3, 3, pwx_kernel);
     prewittY_kernel(3, 3, pwy_kernel);
 
-    for(int i = 0; i < rows; ++i) {
+    cilk_for(int i = 0; i < rows; ++i) {
         for(int j = 0; j < cols; ++j) {
             const int out_offset = i + (j*rows);
             // ...apply the template centered on the pixel...
@@ -216,8 +217,8 @@ int main( int argc, char* argv[] ) {
                                           floor(pwOutPixels[offset].blue * 255.0));
         }
     }
-    imwrite("outBlur.jpg", dest);
-    imwrite("outPW.jpg", dest2);
+    imwrite("cilkBlur.jpg", dest);
+    imwrite("cilkPW.jpg", dest2);
 
 
     free(imagePixels);

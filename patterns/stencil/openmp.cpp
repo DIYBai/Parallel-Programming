@@ -221,9 +221,8 @@ int main( int argc, char* argv[] ) {
                                          floor(pwOutPixels[offset].blue * 255.0));
         }
     }
-
-    imwrite("outBlur.jpg", dest);
-    imwrite("outPW.jpg", dest2);
+    imwrite("ompBlur.jpg", dest);
+    imwrite("ompPW.jpg", dest2);
 
 
     free(imagePixels);

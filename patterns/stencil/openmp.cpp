@@ -215,17 +215,22 @@ int main( int argc, char* argv[] ) {
 
     // Create an output image (same size as input)
     Mat dest(rows, cols, CV_8UC3);
+    Mat dest2(rows, cols, CV_8UC3);
     // Copy C array back into image for output
     for(int i = 0; i < rows; ++i) {
         for(int j = 0; j < cols; ++j) {
             const size_t offset = i + (j*rows);
-            dest.at<Vec3b>(i, j) = Vec3b(floor(pwOutPixels[offset].red * 255.0),
+            dest.at<Vec3b>(i, j) = Vec3b(floor(outPixels[offset].red * 255.0),
+                                         floor(outPixels[offset].green * 255.0),
+                                         floor(outPixels[offset].blue * 255.0));
+            dest2.at<Vec3b>(i, j) = Vec3b(floor(pwOutPixels[offset].red * 255.0),
                                          floor(pwOutPixels[offset].green * 255.0),
                                          floor(pwOutPixels[offset].blue * 255.0));
         }
     }
 
-    imwrite("out.jpg", dest);
+    imwrite("outBlur.jpg", dest);
+    imwrite("outPW.jpg", dest2);
 
 
     free(imagePixels);

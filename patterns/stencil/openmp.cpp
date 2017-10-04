@@ -100,8 +100,8 @@ void apply_stencil(const int radius, const double stddev, const int rows, const 
     double kernel[dim*dim];
     gaussian_kernel(dim, dim, stddev, kernel);
     // For each pixel in the image...
-    #pragma omp parallel for(int i = 0; i < rows; ++i)
-    {
+    #pragma omp parallel for 
+    for(int i = 0; i < rows; ++i) {
         for(int j = 0; j < cols; ++j) {
             const int out_offset = i + (j*rows);
             // ...apply the template centered on the pixel...

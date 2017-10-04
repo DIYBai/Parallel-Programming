@@ -198,11 +198,11 @@ int main( int argc, char* argv[] ) {
     }
 
     pixel * pwOutPixels = (pixel *) malloc(rows * cols * sizeof(pixel));
-    // for(int i = 0; i < rows * cols; ++i) {
-    //     pwOutPixels[i].red = 0.0;
-    //     pwOutPixels[i].green = 0.0;
-    //     pwOutPixels[i].blue = 0.0;
-    // }
+    for(int i = 0; i < rows * cols; ++i) {
+        pwOutPixels[i].red = 0.0;
+        pwOutPixels[i].green = 0.0;
+        // pwOutPixels[i].blue = 0.0;
+    }
 
     // Do the stencil
     struct timespec start_time;

@@ -1,4 +1,11 @@
-Blur filter
+Pipeline (and nested) parallelization
 
-facial recognition
-  - greedy? (look in roughly same area as last frame)
+Real-time?? (1000ms/24fps = ~42 ms per frame)
+
+Pre-process video to be frame data (and sound data?)
+
+
+
+TODO:
+look into video file formats
+look into facial recognition library

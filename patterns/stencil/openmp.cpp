@@ -143,15 +143,22 @@ void apply_stencil(int radius, const double stddev, const int rows, const int co
                         // Acculate intensities in the output pixel
                         const int in_offset =  x + ( y * rows);
                         const int k_offset  = kx + (ky *  dim);
-                        double pw_x = pwx_kernel[k_offset] * out[in_offset].intensity;
-                        double pw_y = pwy_kernel[k_offset] * out[in_offset].intensity;
-                        double inten = sqrt(x*x + y*y);
-                        pw_out[out_offset].red   = inten;
-                        pw_out[out_offset].blue  = inten;
-                        pw_out[out_offset].green = inten;
+                        pw_out[out_offset].red   += pwx_kernel[k_offset] * out[in_offset].intensity;
+                        pw_out[out_offset].green += pwy_kernel[k_offset] * out[in_offset].intensity;
+
+                        // double pw_x = pwx_kernel[k_offset] * out[in_offset].intensity;
+                        // double pw_y = pwy_kernel[k_offset] * out[in_offset].intensity;
+                        // double inten = sqrt(x*x + y*y);
+                        // pw_out[out_offset].red   = inten;
+                        // pw_out[out_offset].blue  = inten;
+                        // pw_out[out_offset].green = inten;
                     }
                 }
             }
+            double inten = sqrt(pw_out[out_offset].red * pw_out[out_offset].red + pw_out[out_offset].green * pw_out[out_offset].green);
+            pw_out[out_offset].red   = inten;
+            pw_out[out_offset].blue  = inten;
+            pw_out[out_offset].green = inten;
         }
     }
 }

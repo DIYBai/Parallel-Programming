@@ -96,7 +96,7 @@ void gaussian_kernel(const int rows, const int cols, const double stddev, double
 /*
  * Applies a gaussian blur stencil to an image
  */
-void apply_stencil(const int radius, const double stddev, const int rows, const int cols, pixel * const in, pixel * const out, pixel * const pw_out) {
+void apply_stencil(int radius, const double stddev, const int rows, const int cols, pixel * const in, pixel * const out, pixel * const pw_out) {
     const int dim = radius*2+1;
     double kernel[dim*dim];
     gaussian_kernel(dim, dim, stddev, kernel);
@@ -127,8 +127,8 @@ void apply_stencil(const int radius, const double stddev, const int rows, const 
     // radius = 3; //for working with prewitt
     double pwx_kernel[3*3];
     double pwy_kernel[3*3];
-    prewittX(3, 3, pwx_kernel);
-    prewittY(3, 3, pwy_kernel);
+    prewittX_kernel(3, 3, pwx_kernel);
+    prewittY_kernel(3, 3, pwy_kernel);
 
     radius = 1;
     #pragma omp parallel for
@@ -143,9 +143,9 @@ void apply_stencil(const int radius, const double stddev, const int rows, const 
                         // Acculate intensities in the output pixel
                         const int in_offset =  x + ( y * rows);
                         const int k_offset  = kx + (ky *  dim);
-                        x = pwx_kernel[k_offset] * out[in_offset].intensity;
-                        y = pwy_kernel[k_offset] * out[in_offset].intensity;
-                        inten = sqrt(x*x + y*y);
+                        double pw_x = pwx_kernel[k_offset] * out[in_offset].intensity;
+                        double pw_y = pwy_kernel[k_offset] * out[in_offset].intensity;
+                        double inten = sqrt(x*x + y*y);
                         pw_out[out_offset].red   = inten;
                         pw_out[out_offset].blue  = inten;
                         pw_out[out_offset].green = inten;

@@ -13,6 +13,7 @@ struct pixel {
     double red;
     double green;
     double blue;
+    double intensity;
 
     pixel(double r, double g, double b) : red(r), green(g), blue(b) {};
 };
@@ -95,12 +96,12 @@ void gaussian_kernel(const int rows, const int cols, const double stddev, double
 /*
  * Applies a gaussian blur stencil to an image
  */
-void apply_stencil(const int radius, const double stddev, const int rows, const int cols, pixel * const in, pixel * const out) {
+void apply_stencil(const int radius, const double stddev, const int rows, const int cols, pixel * const in, pixel * const out, pixel * const pw_out) {
     const int dim = radius*2+1;
     double kernel[dim*dim];
     gaussian_kernel(dim, dim, stddev, kernel);
     // For each pixel in the image...
-    #pragma omp parallel for 
+    #pragma omp parallel for
     for(int i = 0; i < rows; ++i) {
         for(int j = 0; j < cols; ++j) {
             const int out_offset = i + (j*rows);
@@ -115,6 +116,39 @@ void apply_stencil(const int radius, const double stddev, const int rows, const 
                         out[out_offset].red   += kernel[k_offset] * in[in_offset].red;
                         out[out_offset].green += kernel[k_offset] * in[in_offset].green;
                         out[out_offset].blue  += kernel[k_offset] * in[in_offset].blue;
+                    }
+                }
+            }
+            //convert blur to greyscale sort of
+            out[out_offset].intensity = (out[out_offset].red + out[out_offset].green + out[out_offset].blue) / 3
+        }
+    }
+
+    // radius = 3; //for working with prewitt
+    double pwx_kernel[3*3];
+    double pwy_kernel[3*3];
+    prewittX(3, 3, pwx_kernel);
+    prewittY(3, 3, pwy_kernel);
+
+    radius = 1;
+    #pragma omp parallel for
+    for(int i = 0; i < rows; ++i) {
+        for(int j = 0; j < cols; ++j) {
+            const int out_offset = i + (j*rows);
+            // ...apply the template centered on the pixel...
+            for(int x = i - radius, kx = 0; x <= i + radius; ++x, ++kx) {
+                for(int y = j - radius, ky = 0; y <= j + radius; ++y, ++ky) {
+                    // ...and skip parts of the template outside of the image
+                    if(x >= 0 && x < rows && y >= 0 && y < cols) {
+                        // Acculate intensities in the output pixel
+                        const int in_offset =  x + ( y * rows);
+                        const int k_offset  = kx + (ky *  dim);
+                        x = pwx_kernel[k_offset] * out[in_offset].intensity;
+                        y = pwy_kernel[k_offset] * out[in_offset].intensity;
+                        inten = sqrt(x*x + y*y);
+                        pw_out[out_offset].red   = inten;
+                        pw_out[out_offset].blue  = inten;
+                        pw_out[out_offset].green = inten;
                     }
                 }
             }
@@ -156,11 +190,18 @@ int main( int argc, char* argv[] ) {
         outPixels[i].blue = 0.0;
     }
 
+    pixel * wpOutPixels = (pixel *) malloc(rows * cols * sizeof(pixel));
+    // for(int i = 0; i < rows * cols; ++i) {
+    //     wpOutPixels[i].red = 0.0;
+    //     wpOutPixels[i].green = 0.0;
+    //     wpOutPixels[i].blue = 0.0;
+    // }
+
     // Do the stencil
     struct timespec start_time;
     struct timespec end_time;
     clock_gettime(CLOCK_MONOTONIC,&start_time);
-    apply_stencil(3, 32.0, rows, cols, imagePixels, outPixels);
+    apply_stencil(3, 32.0, rows, cols, imagePixels, outPixels, wpOutPixels);
     clock_gettime(CLOCK_MONOTONIC,&end_time);
     long msec = (end_time.tv_sec - start_time.tv_sec)*1000 + (end_time.tv_nsec - start_time.tv_nsec)/1000000;
     printf("Stencil application took %dms\n",msec);
@@ -171,9 +212,9 @@ int main( int argc, char* argv[] ) {
     for(int i = 0; i < rows; ++i) {
         for(int j = 0; j < cols; ++j) {
             const size_t offset = i + (j*rows);
-            dest.at<Vec3b>(i, j) = Vec3b(floor(outPixels[offset].red * 255.0),
-                                         floor(outPixels[offset].green * 255.0),
-                                         floor(outPixels[offset].blue * 255.0));
+            dest.at<Vec3b>(i, j) = Vec3b(floor(wpOutPixels[offset].red * 255.0),
+                                         floor(wpOutPixels[offset].green * 255.0),
+                                         floor(wpOutPixels[offset].blue * 255.0));
         }
     }
 

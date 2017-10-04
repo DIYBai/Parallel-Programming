@@ -95,7 +95,7 @@ void gaussian_kernel(const int rows, const int cols, const double stddev, double
 /*
  * Applies a gaussian blur stencil to an image
  */
-void apply_stencil(const int radius, const double stddev, const int rows, const int cols, pixel * const in, pixel * const out) {
+void apply_stencil(const int radius, const double stddev, const int rows, const int cols, pixel * const in, pixel * const out, pixel * const pw_out) {
     const int dim = radius*2+1;
     double kernel[dim*dim];
     gaussian_kernel(dim, dim, stddev, kernel);

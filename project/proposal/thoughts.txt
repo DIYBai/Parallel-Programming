@@ -1,0 +1,4 @@
+Blur filter
+
+facial recognition
+  - greedy? (look in roughly same area as last frame)

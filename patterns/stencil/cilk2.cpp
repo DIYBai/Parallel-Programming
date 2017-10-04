@@ -4,7 +4,7 @@
 #include <iostream>
 #include <opencv2/opencv.hpp>
 #include <time.h>
-#include <omp.h>
+#include <cilk/cilk.h>
 
 using namespace cv;
 
@@ -96,14 +96,13 @@ void gaussian_kernel(const int rows, const int cols, const double stddev, double
 /*
  * Applies a gaussian blur stencil to an image
  */
-void apply_stencil(int radius, const double stddev, const int rows, const int cols, pixel * const in, pixel * const out, pixel * const pw_out) {
+void apply_stencil(const int radius, const double stddev, const int rows, const int cols, pixel * const in, pixel * const out, pixel * const pw_out) {
     const int dim = radius*2+1;
     double kernel[dim*dim];
     gaussian_kernel(dim, dim, stddev, kernel);
     // For each pixel in the image...
-    for(int i = 0; i < rows; ++i) {
-        #pragma omp parallel for
-        for(int j = 0; j < cols; ++j) {
+    cilk_for(int i = 0; i < rows; ++i) {
+        cilk_for(int j = 0; j < cols; ++j) {
             const int out_offset = i + (j*rows);
             // ...apply the template centered on the pixel...
             for(int x = i - radius, kx = 0; x <= i + radius; ++x, ++kx) {
@@ -130,14 +129,12 @@ void apply_stencil(int radius, const double stddev, const int rows, const int co
     prewittX_kernel(3, 3, pwx_kernel);
     prewittY_kernel(3, 3, pwy_kernel);
 
-    radius = 1;
-    for(int i = 0; i < rows; ++i) {
-        #pragma omp parallel for
-        for(int j = 0; j < cols; ++j) {
+    cilk_for(int i = 0; i < rows; ++i) {
+        cilk_for(int j = 0; j < cols; ++j) {
             const int out_offset = i + (j*rows);
             // ...apply the template centered on the pixel...
-            for(int x = i - radius, kx = 0; x <= i + radius; ++x, ++kx) {
-                for(int y = j - radius, ky = 0; y <= j + radius; ++y, ++ky) {
+            for(int x = i - 1, kx = 0; x <= i + 1; ++x, ++kx) {
+                for(int y = j - 1, ky = 0; y <= j + 1; ++y, ++ky) {
                     // ...and skip parts of the template outside of the image
                     if(x >= 0 && x < rows && y >= 0 && y < cols) {
                         // Acculate intensities in the output pixel
@@ -213,16 +210,16 @@ int main( int argc, char* argv[] ) {
     for(int i = 0; i < rows; ++i) {
         for(int j = 0; j < cols; ++j) {
             const size_t offset = i + (j*rows);
-            dest.at<Vec3b>(i, j)  = Vec3b(floor(outPixels[offset].red     * 255.0),
-                                          floor(outPixels[offset].green   * 255.0),
-                                          floor(outPixels[offset].blue    * 255.0));
-            dest2.at<Vec3b>(i, j) = Vec3b(floor(pwOutPixels[offset].red   * 255.0),
+            dest.at<Vec3b>(i, j) = Vec3b(floor(outPixels[offset].red * 255.0),
+                                         floor(outPixels[offset].green * 255.0),
+                                         floor(outPixels[offset].blue * 255.0));
+            dest2.at<Vec3b>(i, j) = Vec3b(floor(pwOutPixels[offset].red * 255.0),
                                           floor(pwOutPixels[offset].green * 255.0),
-                                          floor(pwOutPixels[offset].blue  * 255.0));
+                                          floor(pwOutPixels[offset].blue * 255.0));
         }
     }
-    imwrite("ompBlur.jpg", dest);
-    imwrite("ompPW.jpg", dest2);
+    imwrite("cilkBlur.jpg", dest);
+    imwrite("cilkPW.jpg", dest2);
 
 
     free(imagePixels);

@@ -142,7 +142,7 @@ void apply_stencil(int radius, const double stddev, const int rows, const int co
                     if(x >= 0 && x < rows && y >= 0 && y < cols) {
                         // Acculate intensities in the output pixel
                         const int in_offset =  x + ( y * rows);
-                        const int k_offset  = kx + (ky *  dim);
+                        const int k_offset  = kx + (ky *  3);
                         pw_out[out_offset].red   += pwx_kernel[k_offset] * out[in_offset].intensity;
                         pw_out[out_offset].green += pwy_kernel[k_offset] * out[in_offset].intensity;
                     }

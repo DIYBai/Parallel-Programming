@@ -205,6 +205,7 @@ int main( int argc, char* argv[] ) {
 
     // Create an output image (same size as input)
     Mat dest(rows, cols, CV_8UC3);
+    Mat dest2(rows, cols, CV_8UC3);
     // Copy C array back into image for output
     for(int i = 0; i < rows; ++i) {
         for(int j = 0; j < cols; ++j) {

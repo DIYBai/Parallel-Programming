@@ -145,13 +145,6 @@ void apply_stencil(int radius, const double stddev, const int rows, const int co
                         const int k_offset  = kx + (ky *  dim);
                         pw_out[out_offset].red   += pwx_kernel[k_offset] * out[in_offset].intensity;
                         pw_out[out_offset].green += pwy_kernel[k_offset] * out[in_offset].intensity;
-
-                        // double pw_x = pwx_kernel[k_offset] * out[in_offset].intensity;
-                        // double pw_y = pwy_kernel[k_offset] * out[in_offset].intensity;
-                        // double inten = sqrt(x*x + y*y);
-                        // pw_out[out_offset].red   = inten;
-                        // pw_out[out_offset].blue  = inten;
-                        // pw_out[out_offset].green = inten;
                     }
                 }
             }
@@ -220,9 +213,9 @@ int main( int argc, char* argv[] ) {
     for(int i = 0; i < rows; ++i) {
         for(int j = 0; j < cols; ++j) {
             const size_t offset = i + (j*rows);
-            dest.at<Vec3b>(i, j) = Vec3b(floor(outPixels[offset].red * 255.0),
-                                         floor(outPixels[offset].green * 255.0),
-                                         floor(outPixels[offset].blue * 255.0));
+            dest.at<Vec3b>(i, j) = Vec3b(floor(outPixels[offset].intensity * 255.0),
+                                         floor(outPixels[offset].intensity * 255.0),
+                                         floor(outPixels[offset].intensity * 255.0));
             dest2.at<Vec3b>(i, j) = Vec3b(floor(pwOutPixels[offset].red * 255.0),
                                          floor(pwOutPixels[offset].green * 255.0),
                                          floor(pwOutPixels[offset].blue * 255.0));

@@ -29,7 +29,7 @@ int walker(long int seed, int x, int y, int stepsremaining) {
     srand48_r(seed, &seedbuf);
     int particles = 1;
     for( ; stepsremaining>0 ; stepsremaining-- ) {
-        
+
         // Does the Carter particle split? If so, start the walk for the new one
         if(doesSplit(&seedbuf, splitProb, x, y, radius)) {
             //printf("spliting!\n");
@@ -37,14 +37,14 @@ int walker(long int seed, int x, int y, int stepsremaining) {
             lrand48_r(&seedbuf, &newseed);
             particles += walker(seed + newseed, x, y, stepsremaining-1);
         }
-        
+
         // Make the particle walk?
         updateLocation(&seedbuf, area, &x, &y, radius);
     }
-    
+
     // record the final location
     outArea[toOffset(x,y,radius)] += 1;
-    
+
     return particles;
 }
 
@@ -59,11 +59,11 @@ int main(int argc, char** argv) {
     int* coords;
     int coordPairs, amount;
     readArgs(argc, argv, &sim_steps, &radius, &amount, &coordPairs, &coords);
-    
+
     // Initialize simulation lookups
     initialize(radius,&outArea,&splitProb,&area);
-    
-    
+
+
     // Start initial walks
     printf("Starting the walks...\n");
     int totParticles = 0;
@@ -73,7 +73,7 @@ int main(int argc, char** argv) {
         }
     }
     printf("Walks complete... finished with %d particles\n",totParticles);
-   
+
     // Generate the output
     writeOutput(radius, outArea);
 
@@ -81,4 +81,6 @@ int main(int argc, char** argv) {
     free(outArea);
     free(splitProb);
     free(area);
+
+    return 0;
 }

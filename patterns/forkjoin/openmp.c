@@ -15,15 +15,15 @@ long q(long n) {
     long val1;
     long val2;
 
-    #pragma omp parallel
+    #pragma omp parallel firstprivate(val1, val2)
     {
-    #pragma omp task firstprivate(val1)
+    #pragma omp task
     {
         val1 = q(n-1);
     }
     // #pragma omp task  //unnecessary creation of new thread I think
     // {
-    long val2 = q(n-2);
+    val2 = q(n-2);
     // }
     #pragma omp taskwait
     }

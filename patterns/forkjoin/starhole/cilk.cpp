@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <opencv2/opencv.hpp>
 #include <cilk/cilk.h>
+#include <cilk/reducer_opadd.h>
 
 using namespace cv;
 
@@ -25,10 +26,12 @@ static int sim_steps;
 
 // Returns the total number of particles descending from this call
 // and increments the count at the right location
+cilk::reducer< cilk::op_add<int> > pred;
 int walker(long int seed, int x, int y, int stepsremaining) {
     struct drand48_data seedbuf;
     srand48_r(seed, &seedbuf);
-    int particles = 1;
+    // int particles = 1;
+    *pred += 1;
     for( ; stepsremaining>0 ; stepsremaining-- ) {
 
         // Does the Carter particle split? If so, start the walk for the new one
@@ -36,7 +39,8 @@ int walker(long int seed, int x, int y, int stepsremaining) {
             //printf("spliting!\n");
             long int newseed;
             lrand48_r(&seedbuf, &newseed);
-            particles += cilk_spawn walker(seed + newseed, x, y, stepsremaining-1);
+            //particles += cilk_spawn walker(seed + newseed, x, y, stepsremaining-1);
+            cilk_spawn walker(seed + newseed, x, y, stepsremaining-1);
         }
 
         // Make the particle walk?
@@ -46,7 +50,7 @@ int walker(long int seed, int x, int y, int stepsremaining) {
     // record the final location
     outArea[toOffset(x,y,radius)] += 1;
 
-    return particles;
+    return pred.getvalue();
 }
 
 int main(int argc, char** argv) {

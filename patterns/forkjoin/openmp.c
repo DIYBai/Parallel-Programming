@@ -15,7 +15,7 @@ long q(long n) {
     long val1;
     long val2;
 
-    #pragma omp parallel firstprivate(val1, val2)
+    #pragma omp parallel shared(val1, val2)
     {
     #pragma omp task
     {

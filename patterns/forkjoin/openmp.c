@@ -22,9 +22,8 @@ long q(long n) {
         val1 = q(n-1);
     }
     // #pragma omp task  //unnecessary creation of new thread I think
-    // {
     val2 = q(n-2);
-    // }
+    
     #pragma omp taskwait
     }
     //end of parallel pragma

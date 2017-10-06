@@ -12,9 +12,10 @@ long q(long n) {
     if(n<3) {
         return 1;
     }
-    long val = 0;
-    val = cilk_spawn q(n-1) + cilk_spawn q(n - q(n-2));
+    long val1 = cilk_spawn q(n-1);
+    long val2 = /*cilk_spawn*/ q(n - q(n-2));
     cilk_sync;
+    long val = val1 + val2
     return q(n - val);
 }
 

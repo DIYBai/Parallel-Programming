@@ -17,13 +17,13 @@ long q(long n) {
 
     #pragma omp parallel
     {
-    #pragma omp task private(val1)
+    #pragma omp task firstprivate(val1)
     {
         val1 = q(n-1);
     }
     // #pragma omp task  //unnecessary creation of new thread I think
     // {
-    long val2 = /*cilk_spawn*/ q(n-2);
+    long val2 = q(n-2);
     // }
     #pragma omp taskwait
     }

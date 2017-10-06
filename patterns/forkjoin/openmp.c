@@ -6,16 +6,26 @@
 #include <stdlib.h>
 #include <math.h>
 #include <time.h>
-#include <cilk/cilk.h>
+#include <omp.h>
 
 long q(long n) {
     if(n<3) {
         return 1;
     }
-    long val1 = cilk_spawn q(n-1);
+
+    #pragma omp parallel
+    {
+    #pragma omp task
+    {
+        long val1 = q(n-1);
+    }
+
+    // #pragma omp task  //unnecessary creation of new thread I think
+    // {
     long val2 = /*cilk_spawn*/ q(n-2);
-    cilk_sync;
-    // long val = val1 - val2;
+    // }
+    #pragma omp taskwait
+    }
     return q(n-val1) + q(n-val2);
 }
 

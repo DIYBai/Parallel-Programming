@@ -12,12 +12,14 @@ long q(long n) {
     if(n<3) {
         return 1;
     }
+    long val1;
+    // long val2;
 
     #pragma omp parallel
     {
-    #pragma omp task
+    #pragma omp task private(val1)
     {
-        long val1 = q(n-1);
+        val1 = q(n-1);
     }
 
     // #pragma omp task  //unnecessary creation of new thread I think

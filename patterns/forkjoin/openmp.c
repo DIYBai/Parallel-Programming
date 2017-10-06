@@ -13,7 +13,7 @@ long q(long n) {
         return 1;
     }
     long val1;
-    // long val2;
+    long val2;
 
     #pragma omp parallel
     {
@@ -21,13 +21,14 @@ long q(long n) {
     {
         val1 = q(n-1);
     }
-
     // #pragma omp task  //unnecessary creation of new thread I think
     // {
     long val2 = /*cilk_spawn*/ q(n-2);
     // }
     #pragma omp taskwait
     }
+    //end of parallel pragma
+
     return q(n-val1) + q(n-val2);
 }
 

@@ -1,7 +1,7 @@
 
 //returns bool based on whether face was found or not
 //if face is found, writes coordinates of (2) opposite corners to coords array (4 vals total)
-#include <inclusion.hpp>
+#include "inclusion.hpp"
 #include <stdio.h>
 
 // int detectFace(pixel * frame_data, int frame_num, int *coords){ //return bool

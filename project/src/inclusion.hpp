@@ -5,5 +5,5 @@
 #include <opencv2/core/Point.hpp>
 #include <opencv2/core/Rect.hpp>
 #include <opencv2/core/Scalar.hpp>
-#include <opencv2/highgui.Highgui.hpp>
-#include <opencv2/objdetect.objdetect.hpp>
+#include <opencv2/highgui/Highgui.hpp>
+#include <opencv2/objdetect/objdetect.hpp>

@@ -116,11 +116,11 @@ void apply_stencil(int radius, const double stddev, const int x1, const int y1, 
                     //TODO: consider the edge cases instead of treating them as 0s (by not adding)
                     if(x >= 0 && x < rows && y >= 0 && y < cols) {
                         // Acculate intensities in the output pixel
-                        const int in_offset = x + (y*rows);
-                        const int k_offset = kx + (ky*dim);
-                        out[out_offset].red   += /*kernel[k_offset] **/ in[in_offset].red;
-                        out[out_offset].green += /*kernel[k_offset] **/ in[in_offset].green;
-                        out[out_offset].blue  += /*kernel[k_offset] **/ in[in_offset].blue;
+                        const int in_offset =  x + ( y*rows);
+                        const int k_offset  = kx + (ky*dim );
+                        out[out_offset].red   += kernel[k_offset] * in[in_offset].red;
+                        out[out_offset].green += kernel[k_offset] * in[in_offset].green;
+                        out[out_offset].blue  += kernel[k_offset] * in[in_offset].blue;
                     }
                 }
             }

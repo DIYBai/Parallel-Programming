@@ -6,7 +6,9 @@
 #include <stdio.h>
 
 using namespace cv;
-using namespace std;
+using namespace std; //unsure if this is necessary/desireable
+
+//TODO:
 // int detectFace(pixel * frame_data, int frame_num, int *coords){ //return bool
 //   //maybe do this initilization for-loop outside/before function call
 //   for(int i = 0; i < 4; i++){
@@ -45,13 +47,13 @@ int main(int argc, char **argv){
     printf( "Detected %d faces", faceDetections.size() );
 
     //faceDetections[i] should be a Rect object w fields x, y, width, and height
-    for (vector<Rect>::iterator rect = faceDetections.begin(); rect != faceDetections.end(); ++rect) {
+    for ( /*vector<Rect>::*/ iterator rect = faceDetections.begin(); rect != faceDetections.end(); ++rect) {
         // Core.rectangle(image, new Point(rect.x, rect.y), new Point(rect.x + rect.width, rect.y + rect.height), new Scalar(0, 255, 0));
         printf("Face found at (%d, %d) -> (%d, %d)", rect.x, rect.y, rect.x + rect.width, rect.y + rect.height);
     }
 
     return 1;
-    string filename = "output.png";
-    printf("Writing %s", filename);
-    Highgui.imwrite(filename, image);
+    // string filename = "output.png";
+    // printf("Writing %s", filename);
+    // Highgui.imwrite(filename, image);
 }

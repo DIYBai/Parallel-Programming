@@ -99,7 +99,7 @@ void apply_stencil(int radius, const double stddev, const int x1, const int y1, 
     memcpy(out, in, sizeof(pixel)*rows*cols); //unsure if this could/should be done before
     const int dim = radius*2+1;
     double kernel[dim*dim];
-    gaussian_kernel(dim, stddev, kernel);
+    gaussian_kernel(dim, dim, stddev, kernel);
 
     // #pragma omp parallel for
     for(int i = y1; i < y2; ++i) {

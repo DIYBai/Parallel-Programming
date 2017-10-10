@@ -36,8 +36,7 @@ int main(int argc, char **argv){
 
     // Mat image = Highgui.imread(FaceDetector.class.getResource("shekhar.JPG").getPath());
     // Mat image = highgui.imread("test1.jpg");  //NOTE: C++ doesn't seem to like this line
-    Mat image;
-    image.imread("test1.jpg");
+    Mat image = imread("test1.jpg");
 
     // MatOfRect faceDetections = new MatOfRect();
     // https://stackoverflow.com/questions/15893591/confusion-between-opencv4android-and-c-data-types

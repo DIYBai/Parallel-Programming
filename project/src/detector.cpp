@@ -45,7 +45,7 @@ int main(int argc, char **argv){
     printf( "Detected %d faces", faceDetections.size() );
 
     //faceDetections[i] should be a Rect object w fields x, y, width, and height
-    for (iterator rect = faceDetections.begin(); rect != faceDetections.end(); ++rect) {
+    for (vector<Rect>::iterator rect = faceDetections.begin(); rect != faceDetections.end(); ++rect) {
         // Core.rectangle(image, new Point(rect.x, rect.y), new Point(rect.x + rect.width, rect.y + rect.height), new Scalar(0, 255, 0));
         printf("Face found at (%d, %d) -> (%d, %d)", rect.x, rect.y, rect.x + rect.width, rect.y + rect.height);
     }

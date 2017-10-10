@@ -40,7 +40,7 @@ int main(int argc, char **argv){
 
     // MatOfRect faceDetections = new MatOfRect();
     // https://stackoverflow.com/questions/15893591/confusion-between-opencv4android-and-c-data-types
-    vector <Rect> faceDetections;// = malloc( sizeof(vector<Rect>) ); //NOTE: unsure what goes in malloc
+    vector <Rect> faceDetections = malloc( sizeof(vector) ); //NOTE: unsure what goes in malloc
 
     faceDetector.detectMultiScale(image, faceDetections);
 
@@ -50,7 +50,7 @@ int main(int argc, char **argv){
     //faceDetections[i] should be a Rect object w fields x, y, width, and height
     for ( vector <Rect>::iterator rect_iter = faceDetections.begin(); rect_iter != faceDetections.end(); ++rect_iter) {
         // Core.rectangle(image, new Point(rect.x, rect.y), new Point(rect.x + rect.width, rect.y + rect.height), new Scalar(0, 255, 0));
-        printf("Face found at (%d)", *rect_obj.x);//, rect_obj.y, rect_obj.x + rect.width, rect.y + rect.height);
+        printf("Face found at (%d)", *rect_iter.x);//, rect_obj.y, rect_obj.x + rect.width, rect.y + rect.height);
         // printf("Face found at (%d, %d) -> (%d, %d)", *rect_obj.x);//, rect_obj.y, rect_obj.x + rect.width, rect.y + rect.height);
     }
 

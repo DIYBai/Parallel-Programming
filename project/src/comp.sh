@@ -1,1 +1,1 @@
-srun bash compile2.sh
+srun bash comp2.sh

@@ -2,6 +2,7 @@
 //returns bool based on whether face was found or not
 //if face is found, writes coordinates of (2) opposite corners to coords array (4 vals total)
 #include "inclusion.hpp"
+#include <stdlib.h>
 #include <stdio.h>
 
 using namespace cv;

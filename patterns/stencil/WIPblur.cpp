@@ -65,7 +65,7 @@ void prewittY_kernel(const int rows, const int cols, double * const kernel) {
  * The kernel will provide a template for the contribution of near by
  * pixels to a pixel under consideration.
  */
-void gaussian_kernel(const int rows, const int cols, const double stddev, double * const kernel) {
+void gaussian_kernel(const int size, const double stddev, double * const kernel) {
     // values needed for the curve
     const double denom = 2.0 * stddev * stddev;
     const double g_denom = M_PI * denom;
@@ -74,22 +74,22 @@ void gaussian_kernel(const int rows, const int cols, const double stddev, double
     double sum = 0.0;
 
     // Build the template
-    for(int i = 0; i < rows; ++i) {
-        for(int j = 0; j < cols; ++j) {
-            const double row_dist = i - (rows/2);
-            const double col_dist = j - (cols/2);
+    for(int i = 0; i < size; ++i) {
+        for(int j = 0; j < size; ++j) {
+            const double row_dist = i - (size/2);
+            const double col_dist = j - (size/2);
             const double dist_sq = (row_dist * row_dist) + (col_dist * col_dist);
             const double value = g_denom_recip * exp((-dist_sq)/denom);
-            kernel[i + (j*rows)] = value;
+            kernel[i + (j*size)] = value;
             sum += value;
         }
     }
 
     // Normalize
     const double recip_sum = 1.0 / sum;
-    for(int i = 0; i < rows; ++i) {
-        for(int j = 0; j < cols; ++j) {
-            kernel[i + (j*rows)] *= recip_sum;
+    for(int i = 0; i < size; ++i) {
+        for(int j = 0; j < size; ++j) {
+            kernel[i + (j*size)] *= recip_sum;
         }
     }
 }
@@ -101,7 +101,7 @@ void apply_stencil(int radius, const double stddev, const int x1, const int y1, 
     memcpy(out, in, sizeof(pixel)*rows*cols); //unsure if this could/should be done before
     const int dim = radius*2+1;
     double kernel[dim*dim];
-    gaussian_kernel(dim, dim, stddev, kernel);
+    gaussian_kernel(dim, stddev, kernel);
 
     // #pragma omp parallel for
     for(int i = y1; i < y2; ++i) {
@@ -118,9 +118,9 @@ void apply_stencil(int radius, const double stddev, const int x1, const int y1, 
                         // Acculate intensities in the output pixel
                         const int in_offset = x + (y*rows);
                         const int k_offset = kx + (ky*dim);
-                        out[out_offset].red   += kernel[k_offset] * in[in_offset].red;
-                        out[out_offset].green += kernel[k_offset] * in[in_offset].green;
-                        out[out_offset].blue  += kernel[k_offset] * in[in_offset].blue;
+                        out[out_offset].red   += /*kernel[k_offset] **/ in[in_offset].red;
+                        out[out_offset].green += /*kernel[k_offset] **/ in[in_offset].green;
+                        out[out_offset].blue  += /*kernel[k_offset] **/ in[in_offset].blue;
                     }
                 }
             }

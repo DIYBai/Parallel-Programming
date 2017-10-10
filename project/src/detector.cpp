@@ -4,6 +4,7 @@
 #include "inclusion.hpp"
 #include <stdio.h>
 
+using namespace cv;
 // int detectFace(pixel * frame_data, int frame_num, int *coords){ //return bool
 //   //maybe do this initilization for-loop outside/before function call
 //   for(int i = 0; i < 4; i++){

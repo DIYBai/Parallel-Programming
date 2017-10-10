@@ -40,7 +40,7 @@ int main(int argc, char **argv){
 
     // MatOfRect faceDetections = new MatOfRect();
     // https://stackoverflow.com/questions/15893591/confusion-between-opencv4android-and-c-data-types
-    vector <Rect> faceDetections = malloc( sizeof(vector<Rect>) ); //NOTE: unsure what goes in malloc
+    vector <Rect> faceDetections;// = malloc( sizeof(vector<Rect>) ); //NOTE: unsure what goes in malloc
 
     faceDetector.detectMultiScale(image, faceDetections);
 

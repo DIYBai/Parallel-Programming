@@ -28,7 +28,7 @@ int main(int argc, char **argv){
     printf("\nRunning FaceDetector");
 
     // CascadeClassifier faceDetector = new CascadeClassifier(FaceDetector.class.getResource("haarcascade_frontalface_alt.xml").getPath());
-    CascadeClassifier faceDetector = malloc(sizeof(CascadeClassifier));
+    CascadeClassifier faceDetector;// = malloc(sizeof(CascadeClassifier));
     faceDetector.load("haarcascade_face.xml");
 
     // Mat image = Highgui.imread(FaceDetector.class.getResource("shekhar.JPG").getPath());
@@ -36,7 +36,7 @@ int main(int argc, char **argv){
 
     // MatOfRect faceDetections = new MatOfRect();
     // https://stackoverflow.com/questions/15893591/confusion-between-opencv4android-and-c-data-types
-    vector<Rect> faceDetections = malloc( sizeof(vector<Rect>) ); //unsure what goes in malloc
+    vector <Rect> faceDetections = malloc( sizeof(vector<Rect>) ); //unsure what goes in malloc
 
     faceDetector.detectMultiScale(image, faceDetections);
 
@@ -50,7 +50,7 @@ int main(int argc, char **argv){
     }
 
     return 1;
-    Char filename[11] = "output.png\0";
+    char filename[11] = "output.png\0";
     printf("Writing %s", filename);
     Highgui.imwrite(filename, image);
 }

@@ -28,6 +28,13 @@ using namespace std; //unsure if this is necessary/desireable
 
 
 int main(int argc, char **argv){
+    /*
+    if(argc != 2) {
+        std::cerr << "Usage: " << argv[0] << " imageName\n";
+        return 1;
+    }
+    */
+
     printf("\nRunning FaceDetector");
 
     // CascadeClassifier faceDetector = new CascadeClassifier(FaceDetector.class.getResource("haarcascade_frontalface_alt.xml").getPath());
@@ -35,27 +42,27 @@ int main(int argc, char **argv){
     faceDetector.load("haarcascade_face.xml");
 
     // Mat image = Highgui.imread(FaceDetector.class.getResource("shekhar.JPG").getPath());
-    // Mat image = highgui.imread("test1.jpg");  //NOTE: C++ doesn't seem to like this line
+    //TODO: make this based on args
     Mat image = imread("test1.jpg");
+    // Mat image = imread(argv[1]);
 
     // MatOfRect faceDetections = new MatOfRect();
     // https://stackoverflow.com/questions/15893591/confusion-between-opencv4android-and-c-data-types
-    vector <Rect> faceDetections = malloc( sizeof(vector) ); //NOTE: unsure what goes in malloc
+    vector <Rect> faceDetections;// = malloc( ??? ); //NOTE: unsure what goes in malloc
 
     faceDetector.detectMultiScale(image, faceDetections);
 
     // System.out.println(String.format("Detected %s faces", faceDetections.toArray().length));
     printf( "Detected %d faces", faceDetections.size() );
 
-    //faceDetections[i] should be a Rect object w fields x, y, width, and height
+    //look in opencv2/core/types.hpp for clues line 383
     for ( vector <Rect>::iterator rect_iter = faceDetections.begin(); rect_iter != faceDetections.end(); ++rect_iter) {
         // Core.rectangle(image, new Point(rect.x, rect.y), new Point(rect.x + rect.width, rect.y + rect.height), new Scalar(0, 255, 0));
-        printf("Face found at (%d)", *rect_iter.x);//, rect_obj.y, rect_obj.x + rect.width, rect.y + rect.height);
-        // printf("Face found at (%d, %d) -> (%d, %d)", *rect_obj.x);//, rect_obj.y, rect_obj.x + rect.width, rect.y + rect.height);
+        printf("Face found at (%d)", *rect_iter.x);//, rect_iter.y, rect_iter.x + rect_iter.width, rect_iter.y + rect_iter.height);
     }
 
     return 1;
     // string filename = "output.png";
     // printf("Writing %s", filename);
-    // Highgui.imwrite(filename, image);
+    // imwrite(filename, image);
 }

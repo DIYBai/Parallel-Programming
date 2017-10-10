@@ -35,11 +35,11 @@ int main(int argc, char **argv){
     faceDetector.load("haarcascade_face.xml");
 
     // Mat image = Highgui.imread(FaceDetector.class.getResource("shekhar.JPG").getPath());
-    Mat image = Highgui.imread("test1.jpg");
+    Mat image = highgui.imread("test1.jpg");  //NOTE: C++ doesn't seem to like this line
 
     // MatOfRect faceDetections = new MatOfRect();
     // https://stackoverflow.com/questions/15893591/confusion-between-opencv4android-and-c-data-types
-    vector <Rect> faceDetections = malloc( sizeof(vector<Rect>) ); //unsure what goes in malloc
+    vector <Rect> faceDetections = malloc( sizeof(vector<Rect>) ); //NOTE: unsure what goes in malloc
 
     faceDetector.detectMultiScale(image, faceDetections);
 

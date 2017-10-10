@@ -50,7 +50,7 @@ int main(int argc, char **argv){
     }
 
     return 1;
-    char filename[11] = "output.png\0";
+    char *filename = "output.png";
     printf("Writing %s", filename);
     Highgui.imwrite(filename, image);
 }

@@ -54,6 +54,7 @@ void apply_blur(int radius, const double stddev, const int x1, const int y1, con
         for(int j = x1; j < x2; ++j) {
             const int out_offset = i + (j*rows);
             //NOTE: small change from adapted code
+            //TODO: Mostly works, but check edge cases (see example in misc)
             out[out_offset].red   = 0;
             out[out_offset].green = 0;
             out[out_offset].blue  = 0;

@@ -28,7 +28,7 @@ int main(int argc, char **argv){
 
     // CascadeClassifier faceDetector = new CascadeClassifier(FaceDetector.class.getResource("haarcascade_frontalface_alt.xml").getPath());
     CascadeClassifier faceDetector = malloc(sizeof(CascadeClassifier));
-    faceDetector.load(haarcascade_face.xml);
+    faceDetector.load("haarcascade_face.xml");
 
     // Mat image = Highgui.imread(FaceDetector.class.getResource("shekhar.JPG").getPath());
     Mat image = Highgui.imread("test1.jpg");

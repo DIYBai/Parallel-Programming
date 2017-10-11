@@ -35,10 +35,10 @@ int main(int argc, char **argv){
     }
     */
 
-    printf("\nRunning FaceDetector");
+    printf("Running FaceDetector\n");
 
     Rect test = Rect(1, 1, 5, 5);
-    printf("Rect test: %d %d %d %d", test.x, test.y, test.width, test.height);
+    printf("Rect test: %d %d %d %d\n", test.x, test.y, test.width, test.height);
     Rect test2 = Rect(1, 2, 3, 4);
     vector <Rect> testVec;
     testVec.push_back(test);

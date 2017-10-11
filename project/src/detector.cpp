@@ -28,14 +28,10 @@ using namespace std; //unsure if this is necessary/desireable
 
 
 int main(int argc, char **argv){
-    /*
     if(argc != 2) {
         std::cerr << "Usage: " << argv[0] << " imageName\n";
         return 1;
     }
-    */
-
-
 
     // Rect test = Rect(1, 1, 5, 5);
     // printf("Rect test: %d %d %d %d\n", test.x, test.y, test.width, test.height);
@@ -48,10 +44,7 @@ int main(int argc, char **argv){
     //     // Core.rectangle(image, new Point(rect.x, rect.y), new Point(rect.x + rect.width, rect.y + rect.height), new Scalar(0, 255, 0));
     //     printf("Face found at (%d)\n", rect_iter->x);//, rect_iter.y, rect_iter.x + rect_iter.width, rect_iter.y + rect_iter.height);
     // }
-
-
-
-    printf("Running FaceDetector\n");
+    //printf("Running FaceDetector\n");
 
     // JC: CascadeClassifier faceDetector = new CascadeClassifier(FaceDetector.class.getResource("haarcascade_frontalface_alt.xml").getPath());
     // Obtained from: https://github.com/opencv/opencv/blob/master/data/haarcascades/haarcascade_frontalface_alt.xml
@@ -59,29 +52,23 @@ int main(int argc, char **argv){
     // faceDetector.load("./haarcascade_face.xml");
 
     // JC: Mat image = Highgui.imread(FaceDetector.class.getResource("shekhar.JPG").getPath());
-    //TODO: make this based on args
-    printf("Checkpoint 1\n");
-    Mat image = imread("test1.jpg", IMREAD_COLOR);
+    // Mat image = imread("test1.jpg");
+    Mat image = imread(argv[1]);
     if(image.empty()){
       printf("Empty/bad file\n");
       return -1;
     }
-    // Mat image = imread(argv[1]);
 
     // JC: MatOfRect faceDetections = new MatOfRect();
     // https://stackoverflow.com/questions/15893591/confusion-between-opencv4android-and-c-data-types
-    vector <Rect> faceDetections;// = malloc( ??? ); //NOTE: unsure what goes in malloc
-
+    vector <Rect> faceDetections;
     faceDetector.detectMultiScale(image, faceDetections);
 
-
     // JC: System.out.println(String.format("Detected %s faces", faceDetections.toArray().length));
-    printf( "Detected %d faces", faceDetections.size() );
+    printf( "Detected %d faces\n", faceDetections.size() );
 
-    //look in opencv2/core/types.hpp (line 383) for clues
     for ( vector <Rect>::iterator rect_iter = faceDetections.begin(); rect_iter != faceDetections.end(); ++rect_iter) {
-        // Core.rectangle(image, new Point(rect.x, rect.y), new Point(rect.x + rect.width, rect.y + rect.height), new Scalar(0, 255, 0));
-        printf("Face found at (%d)", rect_iter->x);//, rect_iter.y, rect_iter.x + rect_iter.width, rect_iter.y + rect_iter.height);
+        printf("Face found at (%d, %d), (%d, %d)\n", rect_iter->x, rect_iter->y, rect_iter->x + rect_iter->width, rect_iter->y + rect_iter->height);
     }
 
     return 1;

@@ -49,17 +49,19 @@ int main(int argc, char **argv){
     // MatOfRect faceDetections = new MatOfRect();
     // https://stackoverflow.com/questions/15893591/confusion-between-opencv4android-and-c-data-types
     vector <Rect> faceDetections;// = malloc( ??? ); //NOTE: unsure what goes in malloc
+    Rect *test = Rect(1, 1, 5, 5);
+    printf("Rect test: %d %d %d %d", test.x, text.y, test.width, test.height);
 
     faceDetector.detectMultiScale(image, faceDetections);
 
     // System.out.println(String.format("Detected %s faces", faceDetections.toArray().length));
     printf( "Detected %d faces", faceDetections.size() );
 
-    //look in opencv2/core/types.hpp for clues line 383
-    for ( vector <Rect>::iterator rect_iter = faceDetections.begin(); rect_iter != faceDetections.end(); ++rect_iter) {
-        // Core.rectangle(image, new Point(rect.x, rect.y), new Point(rect.x + rect.width, rect.y + rect.height), new Scalar(0, 255, 0));
-        printf("Face found at (%d)", *rect_iter.x);//, rect_iter.y, rect_iter.x + rect_iter.width, rect_iter.y + rect_iter.height);
-    }
+    //look in opencv2/core/types.hpp (line 383) for clues
+    // for ( vector <Rect>::iterator rect_iter = faceDetections.begin(); rect_iter != faceDetections.end(); ++rect_iter) {
+    //     // Core.rectangle(image, new Point(rect.x, rect.y), new Point(rect.x + rect.width, rect.y + rect.height), new Scalar(0, 255, 0));
+    //     printf("Face found at (%d)", *rect_iter.x);//, rect_iter.y, rect_iter.x + rect_iter.width, rect_iter.y + rect_iter.height);
+    // }
 
     return 1;
     // string filename = "output.png";

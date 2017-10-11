@@ -55,11 +55,11 @@ int main(int argc, char **argv){
 
     // JC: CascadeClassifier faceDetector = new CascadeClassifier(FaceDetector.class.getResource("haarcascade_frontalface_alt.xml").getPath());
     CascadeClassifier faceDetector;// = malloc(sizeof(CascadeClassifier));
-    faceDetector.load("haarcascade_face.xml");
+    faceDetector.load("./haarcascade_face.xml");
 
     // JC: Mat image = Highgui.imread(FaceDetector.class.getResource("shekhar.JPG").getPath());
     //TODO: make this based on args
-    printf("Checkpoint 1");
+    printf("Checkpoint 1\n");
     Mat image = imread("./test1.jpg", IMREAD_COLOR);
     if(image.empty()){
       printf("Empty/bad file");

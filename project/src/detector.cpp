@@ -37,16 +37,16 @@ int main(int argc, char **argv){
 
     printf("\nRunning FaceDetector");
 
-    // CascadeClassifier faceDetector = new CascadeClassifier(FaceDetector.class.getResource("haarcascade_frontalface_alt.xml").getPath());
+    // JC: CascadeClassifier faceDetector = new CascadeClassifier(FaceDetector.class.getResource("haarcascade_frontalface_alt.xml").getPath());
     CascadeClassifier faceDetector;// = malloc(sizeof(CascadeClassifier));
     faceDetector.load("haarcascade_face.xml");
 
-    // Mat image = Highgui.imread(FaceDetector.class.getResource("shekhar.JPG").getPath());
+    // JC: Mat image = Highgui.imread(FaceDetector.class.getResource("shekhar.JPG").getPath());
     //TODO: make this based on args
     Mat image = imread("test1.jpg");
     // Mat image = imread(argv[1]);
 
-    // MatOfRect faceDetections = new MatOfRect();
+    // JC: MatOfRect faceDetections = new MatOfRect();
     // https://stackoverflow.com/questions/15893591/confusion-between-opencv4android-and-c-data-types
     vector <Rect> faceDetections;// = malloc( ??? ); //NOTE: unsure what goes in malloc
     Rect test = Rect(1, 1, 5, 5);
@@ -54,7 +54,7 @@ int main(int argc, char **argv){
 
     faceDetector.detectMultiScale(image, faceDetections);
 
-    // System.out.println(String.format("Detected %s faces", faceDetections.toArray().length));
+    // JC: System.out.println(String.format("Detected %s faces", faceDetections.toArray().length));
     printf( "Detected %d faces", faceDetections.size() );
 
     //look in opencv2/core/types.hpp (line 383) for clues

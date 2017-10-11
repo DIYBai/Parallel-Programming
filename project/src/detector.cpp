@@ -65,7 +65,7 @@ int main(int argc, char **argv){
     faceDetector.detectMultiScale(image, faceDetections);
 
     // JC: System.out.println(String.format("Detected %s faces", faceDetections.toArray().length));
-    printf( "Detected %d faces\n", faceDetections.size() );
+    printf( "Detected %d face(s)\n", faceDetections.size() );
 
     for ( vector <Rect>::iterator rect_iter = faceDetections.begin(); rect_iter != faceDetections.end(); ++rect_iter) {
         printf("Face found at (%d, %d), (%d, %d)\n", rect_iter->x, rect_iter->y, rect_iter->x + rect_iter->width, rect_iter->y + rect_iter->height);

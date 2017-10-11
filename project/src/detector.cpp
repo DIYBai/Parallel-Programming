@@ -54,6 +54,7 @@ int main(int argc, char **argv){
     printf("Running FaceDetector\n");
 
     // JC: CascadeClassifier faceDetector = new CascadeClassifier(FaceDetector.class.getResource("haarcascade_frontalface_alt.xml").getPath());
+    // Obtained from: https://github.com/opencv/opencv/blob/master/data/haarcascades/haarcascade_frontalface_alt.xml
     CascadeClassifier faceDetector = CascadeClassifier("haarcascade_frontalface_alt.xml"); // = malloc(sizeof(CascadeClassifier));
     // faceDetector.load("./haarcascade_face.xml");
 

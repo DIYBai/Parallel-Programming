@@ -54,8 +54,8 @@ int main(int argc, char **argv){
     printf("Running FaceDetector\n");
 
     // JC: CascadeClassifier faceDetector = new CascadeClassifier(FaceDetector.class.getResource("haarcascade_frontalface_alt.xml").getPath());
-    CascadeClassifier faceDetector;// = malloc(sizeof(CascadeClassifier));
-    faceDetector.load("./haarcascade_face.xml");
+    CascadeClassifier faceDetector = CascadeClassifier("haarcascade_face.xml"); // = malloc(sizeof(CascadeClassifier));
+    // faceDetector.load("./haarcascade_face.xml");
 
     // JC: Mat image = Highgui.imread(FaceDetector.class.getResource("shekhar.JPG").getPath());
     //TODO: make this based on args

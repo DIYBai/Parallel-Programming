@@ -43,7 +43,8 @@ int main(int argc, char **argv){
 
     // JC: Mat image = Highgui.imread(FaceDetector.class.getResource("shekhar.JPG").getPath());
     //TODO: make this based on args
-    Mat image = imread("test1.jpg", IMREAD_COLOR);
+    printf("Checkpoint 1");
+    Mat image = imread("./test1.jpg", IMREAD_COLOR);
     if(image.empty()){
       printf("Empty/bad file");
       return -1;

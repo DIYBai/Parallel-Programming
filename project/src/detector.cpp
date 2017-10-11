@@ -37,6 +37,13 @@ int main(int argc, char **argv){
 
     printf("\nRunning FaceDetector");
 
+    Rect test = Rect(1, 1, 5, 5);
+    printf("Rect test: %d %d %d %d", test.x, test.y, test.width, test.height);
+    Rect test2 = Rect(1, 2, 3, 4);
+    vector <Rect> testVec;
+    testVec.push_back(test);
+    testVec.push_back(test2);
+
     // JC: CascadeClassifier faceDetector = new CascadeClassifier(FaceDetector.class.getResource("haarcascade_frontalface_alt.xml").getPath());
     CascadeClassifier faceDetector;// = malloc(sizeof(CascadeClassifier));
     faceDetector.load("haarcascade_face.xml");
@@ -57,22 +64,10 @@ int main(int argc, char **argv){
 
     faceDetector.detectMultiScale(image, faceDetections);
 
-
-
-
-    Rect test = Rect(1, 1, 5, 5);
-    printf("Rect test: %d %d %d %d", test.x, test.y, test.width, test.height);
-    Rect test2 = Rect(1, 2, 3, 4);
-    vector <Rect> testVec;
-    testVec.push_back(test);
-    testVec.push_back(test2);
-
-
     for ( vector <Rect>::iterator rect_iter = testVec.begin(); rect_iter != testVec.end(); ++rect_iter) {
         // Core.rectangle(image, new Point(rect.x, rect.y), new Point(rect.x + rect.width, rect.y + rect.height), new Scalar(0, 255, 0));
         printf("Face found at (%d)", rect_iter->x);//, rect_iter.y, rect_iter.x + rect_iter.width, rect_iter.y + rect_iter.height);
     }
-
 
     // JC: System.out.println(String.format("Detected %s faces", faceDetections.toArray().length));
     printf( "Detected %d faces", faceDetections.size() );

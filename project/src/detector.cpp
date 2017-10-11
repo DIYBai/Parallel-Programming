@@ -58,10 +58,10 @@ int main(int argc, char **argv){
     printf( "Detected %d faces", faceDetections.size() );
 
     //look in opencv2/core/types.hpp (line 383) for clues
-    // for ( vector <Rect>::iterator rect_iter = faceDetections.begin(); rect_iter != faceDetections.end(); ++rect_iter) {
-    //     // Core.rectangle(image, new Point(rect.x, rect.y), new Point(rect.x + rect.width, rect.y + rect.height), new Scalar(0, 255, 0));
-    //     printf("Face found at (%d)", *rect_iter.x);//, rect_iter.y, rect_iter.x + rect_iter.width, rect_iter.y + rect_iter.height);
-    // }
+    for ( vector <Rect>::iterator rect_iter = faceDetections.begin(); rect_iter != faceDetections.end(); ++rect_iter) {
+        // Core.rectangle(image, new Point(rect.x, rect.y), new Point(rect.x + rect.width, rect.y + rect.height), new Scalar(0, 255, 0));
+        printf("Face found at (%d)", *rect_iter->x);//, rect_iter.y, rect_iter.x + rect_iter.width, rect_iter.y + rect_iter.height);
+    }
 
     return 1;
     // string filename = "output.png";

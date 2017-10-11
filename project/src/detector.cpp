@@ -29,7 +29,7 @@ using namespace std; //unsure if this is necessary/desireable
 
 int main(int argc, char **argv){
     if(argc != 2) {
-        cout << "Usage: " << argv[0] << " imageName\n";
+        std::cout << "Usage: " << argv[0] << " imageName\n";
         return 1;
     }
 

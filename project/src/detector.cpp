@@ -49,8 +49,8 @@ int main(int argc, char **argv){
     // MatOfRect faceDetections = new MatOfRect();
     // https://stackoverflow.com/questions/15893591/confusion-between-opencv4android-and-c-data-types
     vector <Rect> faceDetections;// = malloc( ??? ); //NOTE: unsure what goes in malloc
-    Rect *test = Rect(1, 1, 5, 5);
-    printf("Rect test: %d %d %d %d", test.x, text.y, test.width, test.height);
+    Rect test = Rect(1, 1, 5, 5);
+    printf("Rect test: %d %d %d %d", test.x, test.y, test.width, test.height);
 
     faceDetector.detectMultiScale(image, faceDetections);
 

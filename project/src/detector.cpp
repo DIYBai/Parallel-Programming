@@ -99,11 +99,11 @@ int main(int argc, char **argv){
 
     const int rows = image.rows;
     const int cols = image.cols;
-    pixel * imagePixels = (pixel *) malloc(rows * cols * sizeof(pixel));
+    pixel * inPixels = (pixel *) malloc(rows * cols * sizeof(pixel));
     for(int i = 0; i < rows; ++i) {
         for(int j = 0; j < cols; ++j) {
             Vec3b p = image.at<Vec3b>(i, j);
-            imagePixels[i + (j*rows)] = pixel(p[0]/255.0,p[1]/255.0,p[2]/255.0);
+            inPixels[i + (j*rows)] = pixel(p[0]/255.0,p[1]/255.0,p[2]/255.0);
         }
     }
 
@@ -132,7 +132,7 @@ int main(int argc, char **argv){
     }
     imwrite("TEMP.jpg", dest);
 
-    free(imagePixels);
+    free(inPixels);
     free(outPixels);
 
     return 0;

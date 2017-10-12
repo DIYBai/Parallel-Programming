@@ -6,9 +6,12 @@
 #include <stdio.h>
 #include <string.h>
 #include <cmath>
+#include <iostream>
+#include <filesystem>
 
 using namespace cv;
 using namespace std; //unsure if this is necessary/desireable
+namespace fs = std::filesystem;
 
 struct pixel {
     double red;
@@ -82,7 +85,7 @@ void apply_blur(int radius, const double stddev, const int x1, const int y1, con
 
 int main(int argc, char **argv){
     if(argc != 2) {
-        printf("Usage: %s imageName\n", argv[0]);
+        printf("Usage: %s folderName\n", argv[0]);
         return 1;
     }
 
@@ -90,50 +93,59 @@ int main(int argc, char **argv){
     CascadeClassifier faceDetector = CascadeClassifier("haarcascade_frontalface_alt.xml");
     // faceDetector.load("./haarcascade_face.xml");
 
-    //put for loop starting here to read all pictures in folder
-    Mat image = imread(argv[1], CV_LOAD_IMAGE_COLOR);
-    if(image.empty()){
-      printf("Empty or bad file\n");
-      return -1;
+    //from https://stackoverflow.com/questions/612097/how-can-i-get-the-list-of-files-in-a-directory-using-c-or-c
+
+
+
+    string folder = argv[0];
+    for (auto & p : fs::directory_iterator(folder)) {
+        printf("File: %s", p);
     }
-
-    const int rows = image.rows;
-    const int cols = image.cols;
-    pixel * inPixels = (pixel *) malloc(rows * cols * sizeof(pixel));
-    for(int i = 0; i < rows; ++i) {
-        for(int j = 0; j < cols; ++j) {
-            Vec3b p = image.at<Vec3b>(i, j);
-            inPixels[i + (j*rows)] = pixel(p[0]/255.0,p[1]/255.0,p[2]/255.0);
-        }
-    }
-
-    //create output pixels
-    pixel * outPixels = (pixel *) malloc(rows * cols * sizeof(pixel));
-    memcpy(outPixels, inPixels, sizeof(pixel)*rows*cols);
-
-    // https://stackoverflow.com/questions/15893591/confusion-between-opencv4android-and-c-data-types
-    vector <Rect> faceDetections;
-    faceDetector.detectMultiScale(image, faceDetections);
-
-    if(faceDetections.size() > 0 ){ //might not need this statement
-        for ( vector <Rect>::iterator rect_iter = faceDetections.begin(); rect_iter != faceDetections.end(); ++rect_iter) {
-            apply_blur(3, 32.0, rect_iter->x, rect_iter->y, rect_iter->x + rect_iter->width, rect_iter->y + rect_iter->height, rows, cols, inPixels, outPixels);
-        }
-    }
-
-    Mat dest(rows, cols, CV_8UC3);
-    for(int i = 0; i < rows; ++i) {
-        for(int j = 0; j < cols; ++j) {
-            const size_t offset = i + (j*rows);
-            dest.at<Vec3b>(i, j) = Vec3b(floor(outPixels[offset].red * 255.0),
-                                         floor(outPixels[offset].green * 255.0),
-                                         floor(outPixels[offset].blue * 255.0));
-        }
-    }
-    imwrite("TEMP.jpg", dest);
-
-    free(inPixels);
-    free(outPixels);
-
+    //
+    // for() {
+    //     Mat image = imread(argv[1], CV_LOAD_IMAGE_COLOR);
+    //     if(image.empty()){
+    //       printf("Empty or bad file\n");
+    //       return -1;
+    //     }
+    //
+    //     const int rows = image.rows;
+    //     const int cols = image.cols;
+    //     pixel * inPixels = (pixel *) malloc(rows * cols * sizeof(pixel));
+    //     for(int i = 0; i < rows; ++i) {
+    //         for(int j = 0; j < cols; ++j) {
+    //             Vec3b p = image.at<Vec3b>(i, j);
+    //             inPixels[i + (j*rows)] = pixel(p[0]/255.0,p[1]/255.0,p[2]/255.0);
+    //         }
+    //     }
+    //
+    //     //create output pixels
+    //     pixel * outPixels = (pixel *) malloc(rows * cols * sizeof(pixel));
+    //     memcpy(outPixels, inPixels, sizeof(pixel)*rows*cols);
+    //
+    //     // https://stackoverflow.com/questions/15893591/confusion-between-opencv4android-and-c-data-types
+    //     vector <Rect> faceDetections;
+    //     faceDetector.detectMultiScale(image, faceDetections);
+    //
+    //     if(faceDetections.size() > 0 ){ //might not need this statement
+    //         for ( vector <Rect>::iterator rect_iter = faceDetections.begin(); rect_iter != faceDetections.end(); ++rect_iter) {
+    //             apply_blur(10, 1024.0, rect_iter->x, rect_iter->y, rect_iter->x + rect_iter->width, rect_iter->y + rect_iter->height, rows, cols, inPixels, outPixels);
+    //         }
+    //     }
+    //
+    //     Mat dest(rows, cols, CV_8UC3);
+    //     for(int i = 0; i < rows; ++i) {
+    //         for(int j = 0; j < cols; ++j) {
+    //             const size_t offset = i + (j*rows);
+    //             dest.at<Vec3b>(i, j) = Vec3b(floor(outPixels[offset].red * 255.0),
+    //                                          floor(outPixels[offset].green * 255.0),
+    //                                          floor(outPixels[offset].blue * 255.0));
+    //         }
+    //     }
+    //     imwrite("TEMP.jpg", dest);
+    //
+    //     free(inPixels);
+    //     free(outPixels);
+    // }
     return 0;
 }

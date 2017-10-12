@@ -103,15 +103,15 @@ int main(int argc, char **argv){
           count++;
         }
     }
-    char f_names[count][100]; //hardcoded buffer size of 100 chars
+    char f_names[count][256]; //hardcoded buffer size of 100 chars
 
     rewinddir(dir);
     count = 0;
     while ( (ent = readdir(dir)) != NULL ){
         //Saving filenames to array (can parallel process chunks)
         char *f_ext = strrchr(ent->d_name, '.');
-        if ( f_ext && !strcmp(dot, ".jpg") ){
-            char f_name[100];
+        if ( f_ext && !strcmp(f_ext, ".jpg") ){
+            char f_name[256];
             // sprintf(f_name, "%s/%s", argv[1], ent->d_name);
             // f_names[count] = f_name;
             f_names[count] = ent->d_name;

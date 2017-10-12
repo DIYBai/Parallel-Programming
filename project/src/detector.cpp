@@ -115,7 +115,7 @@ int main(int argc, char **argv){
             // sprintf(f_name, "%s/%s", argv[1], ent->d_name);
             // f_names[count] = f_name;
             strcpy(f_names[count], ent->d_name);
-            printf("In array: %s\n", f_names[count]);
+            printf("In array at f_names[%d]: %s\n", count, f_names[count]);
             count++;
         }
     }

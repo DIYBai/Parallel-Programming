@@ -83,8 +83,8 @@ void apply_blur(int radius, const double stddev, const int x1, const int y1, con
 }
 
 int main(int argc, char **argv){
-    if(argc != 2) {
-        printf("Usage: %s folderName\n", argv[0]);
+    if(argc != 3) {
+        printf("Usage: %s inputFolderName outputFolderName\n", argv[0]);
         return 1;
     }
 
@@ -93,21 +93,64 @@ int main(int argc, char **argv){
     // faceDetector.load("./haarcascade_face.xml");
 
     //from https://stackoverflow.com/questions/612097/how-can-i-get-the-list-of-files-in-a-directory-using-c-or-c
-
-
-
     DIR *dir;
     struct dirent *ent;
-    if ( (dir = opendir (argv[1])) != NULL ) {
-      /* print all the files and directories within directory */
-      while ( (ent = readdir (dir)) != NULL ) {
-        printf ("%s\n", ent->d_name);
-      }
-      closedir (dir);
-    } else {
-      /* could not open directory */
-      perror ("");
-      return EXIT_FAILURE;
+    if ( (dir = opendir (argv[1])) == NULL ) {
+        printf("Error attempting to access input directory %s!", argv[1]);
+        return -1;
+    }
+    else {
+        while ( (ent = readdir (dir)) != NULL ) {
+            //make sure they're jpg files       ent->d_name
+
+            printf("%s", argv[1]+"/"+ent->d_name);
+            printf("%s", argv[2]+"/"+ent->d_name);
+            Mat image = imread(argv[1]+ent->d_name, CV_LOAD_IMAGE_COLOR);
+            // if(image.empty()){
+            //     printf("Empty or bad file\n");
+            //     return -1;
+            // }
+            //
+            // const int rows = image.rows;
+            // const int cols = image.cols;
+            // pixel * inPixels = (pixel *) malloc(rows * cols * sizeof(pixel));
+            // for(int i = 0; i < rows; ++i) {
+            //     for(int j = 0; j < cols; ++j) {
+            //         Vec3b p = image.at<Vec3b>(i, j);
+            //         inPixels[i + (j*rows)] = pixel(p[0]/255.0,p[1]/255.0,p[2]/255.0);
+            //     }
+            // }
+            //
+            // //create output pixels
+            // pixel * outPixels = (pixel *) malloc(rows * cols * sizeof(pixel));
+            // memcpy(outPixels, inPixels, sizeof(pixel)*rows*cols);
+            //
+            // // https://stackoverflow.com/questions/15893591/confusion-between-opencv4android-and-c-data-types
+            // vector <Rect> faceDetections;
+            // faceDetector.detectMultiScale(image, faceDetections);
+            //
+            // if(faceDetections.size() > 0 ){ //might not need this statement
+            //     for ( vector <Rect>::iterator rect_iter = faceDetections.begin(); rect_iter != faceDetections.end(); ++rect_iter) {
+            //         apply_blur(10, 1024.0, rect_iter->x, rect_iter->y, rect_iter->x + rect_iter->width, rect_iter->y + rect_iter->height, rows, cols, inPixels, outPixels);
+            //     }
+            // }
+            //
+            // Mat dest(rows, cols, CV_8UC3);
+            // for(int i = 0; i < rows; ++i) {
+            //     for(int j = 0; j < cols; ++j) {
+            //         const size_t offset = i + (j*rows);
+            //         dest.at<Vec3b>(i, j) = Vec3b(floor(outPixels[offset].red * 255.0),
+            //                                      floor(outPixels[offset].green * 255.0),
+            //                                      floor(outPixels[offset].blue * 255.0));
+            //     }
+            // }
+            // imwrite(argv[2]+"/"+ent->d_name, dest);
+            //
+            // free(inPixels);
+            // free(outPixels);
+        }
+        closedir (dir);
+        return 1;
     }
     //
     // for() {

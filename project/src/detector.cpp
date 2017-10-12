@@ -121,8 +121,8 @@ int main(int argc, char **argv){
     closedir(dir);
 
     for(int i = 0; i < count; i++){
-        printf("%s/%s", argv[1], f_names[count]);
-        printf("%s/%s", argv[2], f_names[count]);
+        printf("%s/%s\n", argv[1], f_names[count]);
+        printf("%s/%s\n", argv[2], f_names[count]);
     }
 
     //for loop here

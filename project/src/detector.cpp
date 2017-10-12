@@ -87,12 +87,11 @@ int main(int argc, char **argv){
 
     // Obtained from: https://github.com/opencv/opencv/blob/master/data/haarcascades/haarcascade_frontalface_alt.xml
     CascadeClassifier faceDetector = CascadeClassifier("haarcascade_frontalface_alt.xml");
-    // faceDetector.load("./haarcascade_face.xml");
 
     //from https://stackoverflow.com/questions/612097/how-can-i-get-the-list-of-files-in-a-directory-using-c-or-c
     DIR *dir;
     struct dirent *ent;
-    if ( (dir = opendir (argv[1])) == NULL ) {
+    if ( (dir = opendir(argv[1])) == NULL ) {
         printf("Error attempting to access input directory %s!", argv[1]);
         return -1;
     }
@@ -108,70 +107,66 @@ int main(int argc, char **argv){
     rewinddir(dir);
     count = 0;
     while ( (ent = readdir(dir)) != NULL ){
-        //Saving filenames to array (can parallel process chunks)
         char *f_ext = strrchr(ent->d_name, '.');
         if ( f_ext && !strcmp(f_ext, ".jpg") ){
-            // char f_name[256];
-            // sprintf(f_name, "%s/%s", argv[1], ent->d_name);
-            // f_names[count] = f_name;
             strcpy(f_names[count], ent->d_name);
-            // printf("In array at f_names[%d]: %s\n", count, f_names[count]);
             count++;
         }
     }
     closedir(dir);
 
-    for(int i = 0; i < count; i++){
-        printf("%s/%s\n", argv[1], f_names[i]);
-        printf("%s/%s\n", argv[2], f_names[i]);
-    }
 
-    //for loop here
-        //above prints are for testing, as is below line. Everything else commented out to come back
-        // Mat image = imread(argv[1]+ent->d_name, CV_LOAD_IMAGE_COLOR);
-        // if(image.empty()){
-        //     printf("Empty or bad file\n");
-        //     return -1;
-        // }
-        //
-        // const int rows = image.rows;
-        // const int cols = image.cols;
-        // pixel * inPixels = (pixel *) malloc(rows * cols * sizeof(pixel));
-        // for(int i = 0; i < rows; ++i) {
-        //     for(int j = 0; j < cols; ++j) {
-        //         Vec3b p = image.at<Vec3b>(i, j);
-        //         inPixels[i + (j*rows)] = pixel(p[0]/255.0,p[1]/255.0,p[2]/255.0);
-        //     }
-        // }
-        //
-        // //create output pixels
-        // pixel * outPixels = (pixel *) malloc(rows * cols * sizeof(pixel));
-        // memcpy(outPixels, inPixels, sizeof(pixel)*rows*cols);
-        //
-        // // https://stackoverflow.com/questions/15893591/confusion-between-opencv4android-and-c-data-types
-        // vector <Rect> faceDetections;
-        // faceDetector.detectMultiScale(image, faceDetections);
-        //
-        // if(faceDetections.size() > 0 ){ //might not need this statement
-        //     for ( vector <Rect>::iterator rect_iter = faceDetections.begin(); rect_iter != faceDetections.end(); ++rect_iter) {
-        //         apply_blur(10, 1024.0, rect_iter->x, rect_iter->y, rect_iter->x + rect_iter->width, rect_iter->y + rect_iter->height, rows, cols, inPixels, outPixels);
-        //     }
-        // }
-        //
-        // Mat dest(rows, cols, CV_8UC3);
-        // for(int i = 0; i < rows; ++i) {
-        //     for(int j = 0; j < cols; ++j) {
-        //         const size_t offset = i + (j*rows);
-        //         dest.at<Vec3b>(i, j) = Vec3b(floor(outPixels[offset].red * 255.0),
-        //                                      floor(outPixels[offset].green * 255.0),
-        //                                      floor(outPixels[offset].blue * 255.0));
-        //     }
-        // }
-        // //TODO: check if imwrite can create folders... look at https://stackoverflow.com/questions/9235679/create-a-directory-if-it-doesnt-exist maybe?
-        // manually create output folder
-        // imwrite(argv[2]+"/"+ent->d_name, dest);
-        //
-        // free(inPixels);
-        // free(outPixels);
+    // printf("%s/%s\n", argv[1], f_names[i]);
+    // printf("%s/%s\n", argv[2], f_names[i]);
+    for(int i = 0; i < count; i++){
+        char in_loc[256];
+        sprintf(in_loc, "%s/%s", argv[1], f_names[i])
+        Mat image = imread(in_loc, CV_LOAD_IMAGE_COLOR);
+        if(image.empty()){
+            printf("Empty or bad file\n");
+            return -1;
+        }
+
+        const int rows = image.rows;
+        const int cols = image.cols;
+        pixel * inPixels = (pixel *) malloc(rows * cols * sizeof(pixel));
+        for(int i = 0; i < rows; ++i) {
+            for(int j = 0; j < cols; ++j) {
+                Vec3b p = image.at<Vec3b>(i, j);
+                inPixels[i + (j*rows)] = pixel(p[0]/255.0,p[1]/255.0,p[2]/255.0);
+            }
+        }
+
+        //create output pixels
+        pixel * outPixels = (pixel *) malloc(rows * cols * sizeof(pixel));
+        memcpy(outPixels, inPixels, sizeof(pixel)*rows*cols);
+
+        // https://stackoverflow.com/questions/15893591/confusion-between-opencv4android-and-c-data-types
+        vector <Rect> faceDetections;
+        faceDetector.detectMultiScale(image, faceDetections);
+
+        if(faceDetections.size() > 0 ){ //might not need this statement
+            for ( vector <Rect>::iterator rect_iter = faceDetections.begin(); rect_iter != faceDetections.end(); ++rect_iter) {
+                apply_blur(10, 1024.0, rect_iter->x, rect_iter->y, rect_iter->x + rect_iter->width, rect_iter->y + rect_iter->height, rows, cols, inPixels, outPixels);
+            }
+        }
+
+        Mat dest(rows, cols, CV_8UC3);
+        for(int i = 0; i < rows; ++i) {
+            for(int j = 0; j < cols; ++j) {
+                const size_t offset = i + (j*rows);
+                dest.at<Vec3b>(i, j) = Vec3b(floor(outPixels[offset].red * 255.0),
+                                             floor(outPixels[offset].green * 255.0),
+                                             floor(outPixels[offset].blue * 255.0));
+            }
+        }
+
+        char out_loc[256];
+        sprintf(out_loc, "%s/out_%s", argv[2], f_names[i]);
+        imwrite(out_loc, dest);
+
+        free(inPixels);
+        free(outPixels);
+    }
     return 1;
 }

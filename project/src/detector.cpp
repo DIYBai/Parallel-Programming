@@ -11,7 +11,6 @@
 
 using namespace cv;
 using namespace std; //unsure if this is necessary/desireable
-namespace fs = std::filesystem;
 
 struct pixel {
     double red;

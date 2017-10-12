@@ -114,7 +114,7 @@ int main(int argc, char **argv){
             char f_name[256];
             // sprintf(f_name, "%s/%s", argv[1], ent->d_name);
             // f_names[count] = f_name;
-            strcpy(*f_names[count], ent->d_name);
+            strcpy(f_names[count], ent->d_name);
             count++;
         }
     }

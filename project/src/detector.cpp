@@ -115,16 +115,15 @@ int main(int argc, char **argv){
             // sprintf(f_name, "%s/%s", argv[1], ent->d_name);
             // f_names[count] = f_name;
             strcpy(f_names[count], ent->d_name);
-            printf("In array at f_names[%d]: %s\n", count, f_names[count]);
+            // printf("In array at f_names[%d]: %s\n", count, f_names[count]);
             count++;
         }
     }
     closedir(dir);
-    printf("%s\n", f_names[0]);
 
     for(int i = 0; i < count; i++){
-        printf("%s/%s\n", argv[1], f_names[count]);
-        printf("%s/%s\n", argv[2], f_names[count]);
+        printf("%s/%s\n", argv[1], f_names[i]);
+        printf("%s/%s\n", argv[2], f_names[i]);
     }
 
     //for loop here

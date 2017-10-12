@@ -119,13 +119,13 @@ int main(int argc, char **argv){
             count++;
         }
     }
-
+    closedir(dir);
+    printf("%s\n", f_names[0]);
 
     for(int i = 0; i < count; i++){
         printf("%s/%s\n", argv[1], f_names[count]);
         printf("%s/%s\n", argv[2], f_names[count]);
     }
-    closedir(dir);
 
     //for loop here
         //above prints are for testing, as is below line. Everything else commented out to come back

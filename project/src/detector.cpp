@@ -96,16 +96,38 @@ int main(int argc, char **argv){
         printf("Error attempting to access input directory %s!", argv[1]);
         return -1;
     }
-    while ( (ent = readdir (dir)) != NULL ) {
-        //make sure they're jpg files       ent->d_name
+    int count = 0;
+    while ( (ent = readdir(dir)) != NULL ) {
+        char *f_ext = strrchr(ent->d_name, '.'); //https://stackoverflow.com/questions/10347689/how-can-i-check-whether-a-string-ends-with-csv-in-c
+        if ( f_ext && !strcmp(dot, ".jpg") ){
+          count++;
+        }
+    }
+    char f_names[count][100]; //hardcoded buffer size of 100 chars
 
-        //TODO: try this? http://www.cplusplus.com/reference/cstring/strcat/
-        //currently unsure how to (best) go about string concatenation
-        printf("%s", argv[1]+"/"+ent->d_name);
-        printf("%s", argv[2]+"/"+ent->d_name);
+    rewinddir(dir);
+    count = 0;
+    while ( (ent = readdir(dir)) != NULL ){
+        //Saving filenames to array (can parallel process chunks)
+        char *f_ext = strrchr(ent->d_name, '.');
+        if ( f_ext && !strcmp(dot, ".jpg") ){
+            char f_name[100];
+            // sprintf(f_name, "%s/%s", argv[1], ent->d_name);
+            // f_names[count] = f_name;
+            f_names[count] = ent->d_name;
+            count++;
+        }
+    }
+    closedir(dir);
 
+    for(int i = 0; i < count; i++){
+        printf("%s/%s", argv[1], f_names[count]);
+        printf("%s/%s", argv[2], f_names[count]);
+    }
+
+    //for loop here
         //above prints are for testing, as is below line. Everything else commented out to come back
-        Mat image = imread(argv[1]+ent->d_name, CV_LOAD_IMAGE_COLOR);
+        // Mat image = imread(argv[1]+ent->d_name, CV_LOAD_IMAGE_COLOR);
         // if(image.empty()){
         //     printf("Empty or bad file\n");
         //     return -1;
@@ -145,11 +167,10 @@ int main(int argc, char **argv){
         //     }
         // }
         // //TODO: check if imwrite can create folders... look at https://stackoverflow.com/questions/9235679/create-a-directory-if-it-doesnt-exist maybe?
+        // manually create output folder
         // imwrite(argv[2]+"/"+ent->d_name, dest);
         //
         // free(inPixels);
         // free(outPixels);
-    }
-    closedir (dir);
     return 1;
 }

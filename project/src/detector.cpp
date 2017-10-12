@@ -1,6 +1,3 @@
-
-//returns bool based on whether face was found or not
-//if face is found, writes coordinates of (2) opposite corners to coords array (4 vals total)
 #include "inclusion.hpp"
 #include <stdlib.h>
 #include <stdio.h>
@@ -99,104 +96,60 @@ int main(int argc, char **argv){
         printf("Error attempting to access input directory %s!", argv[1]);
         return -1;
     }
-    else {
-        while ( (ent = readdir (dir)) != NULL ) {
-            //make sure they're jpg files       ent->d_name
+    while ( (ent = readdir (dir)) != NULL ) {
+        //make sure they're jpg files       ent->d_name
 
-            printf("%s", argv[1]+"/"+ent->d_name);
-            printf("%s", argv[2]+"/"+ent->d_name);
-            Mat image = imread(argv[1]+ent->d_name, CV_LOAD_IMAGE_COLOR);
-            // if(image.empty()){
-            //     printf("Empty or bad file\n");
-            //     return -1;
-            // }
-            //
-            // const int rows = image.rows;
-            // const int cols = image.cols;
-            // pixel * inPixels = (pixel *) malloc(rows * cols * sizeof(pixel));
-            // for(int i = 0; i < rows; ++i) {
-            //     for(int j = 0; j < cols; ++j) {
-            //         Vec3b p = image.at<Vec3b>(i, j);
-            //         inPixels[i + (j*rows)] = pixel(p[0]/255.0,p[1]/255.0,p[2]/255.0);
-            //     }
-            // }
-            //
-            // //create output pixels
-            // pixel * outPixels = (pixel *) malloc(rows * cols * sizeof(pixel));
-            // memcpy(outPixels, inPixels, sizeof(pixel)*rows*cols);
-            //
-            // // https://stackoverflow.com/questions/15893591/confusion-between-opencv4android-and-c-data-types
-            // vector <Rect> faceDetections;
-            // faceDetector.detectMultiScale(image, faceDetections);
-            //
-            // if(faceDetections.size() > 0 ){ //might not need this statement
-            //     for ( vector <Rect>::iterator rect_iter = faceDetections.begin(); rect_iter != faceDetections.end(); ++rect_iter) {
-            //         apply_blur(10, 1024.0, rect_iter->x, rect_iter->y, rect_iter->x + rect_iter->width, rect_iter->y + rect_iter->height, rows, cols, inPixels, outPixels);
-            //     }
-            // }
-            //
-            // Mat dest(rows, cols, CV_8UC3);
-            // for(int i = 0; i < rows; ++i) {
-            //     for(int j = 0; j < cols; ++j) {
-            //         const size_t offset = i + (j*rows);
-            //         dest.at<Vec3b>(i, j) = Vec3b(floor(outPixels[offset].red * 255.0),
-            //                                      floor(outPixels[offset].green * 255.0),
-            //                                      floor(outPixels[offset].blue * 255.0));
-            //     }
-            // }
-            // imwrite(argv[2]+"/"+ent->d_name, dest);
-            //
-            // free(inPixels);
-            // free(outPixels);
-        }
-        closedir (dir);
-        return 1;
+        //TODO: try this? http://www.cplusplus.com/reference/cstring/strcat/
+        //currently unsure how to (best) go about string concatenation
+        printf("%s", argv[1]+"/"+ent->d_name);
+        printf("%s", argv[2]+"/"+ent->d_name);
+
+        //above prints are for testing, as is below line. Everything else commented out to come back
+        Mat image = imread(argv[1]+ent->d_name, CV_LOAD_IMAGE_COLOR);
+        // if(image.empty()){
+        //     printf("Empty or bad file\n");
+        //     return -1;
+        // }
+        //
+        // const int rows = image.rows;
+        // const int cols = image.cols;
+        // pixel * inPixels = (pixel *) malloc(rows * cols * sizeof(pixel));
+        // for(int i = 0; i < rows; ++i) {
+        //     for(int j = 0; j < cols; ++j) {
+        //         Vec3b p = image.at<Vec3b>(i, j);
+        //         inPixels[i + (j*rows)] = pixel(p[0]/255.0,p[1]/255.0,p[2]/255.0);
+        //     }
+        // }
+        //
+        // //create output pixels
+        // pixel * outPixels = (pixel *) malloc(rows * cols * sizeof(pixel));
+        // memcpy(outPixels, inPixels, sizeof(pixel)*rows*cols);
+        //
+        // // https://stackoverflow.com/questions/15893591/confusion-between-opencv4android-and-c-data-types
+        // vector <Rect> faceDetections;
+        // faceDetector.detectMultiScale(image, faceDetections);
+        //
+        // if(faceDetections.size() > 0 ){ //might not need this statement
+        //     for ( vector <Rect>::iterator rect_iter = faceDetections.begin(); rect_iter != faceDetections.end(); ++rect_iter) {
+        //         apply_blur(10, 1024.0, rect_iter->x, rect_iter->y, rect_iter->x + rect_iter->width, rect_iter->y + rect_iter->height, rows, cols, inPixels, outPixels);
+        //     }
+        // }
+        //
+        // Mat dest(rows, cols, CV_8UC3);
+        // for(int i = 0; i < rows; ++i) {
+        //     for(int j = 0; j < cols; ++j) {
+        //         const size_t offset = i + (j*rows);
+        //         dest.at<Vec3b>(i, j) = Vec3b(floor(outPixels[offset].red * 255.0),
+        //                                      floor(outPixels[offset].green * 255.0),
+        //                                      floor(outPixels[offset].blue * 255.0));
+        //     }
+        // }
+        // //TODO: check if imwrite can create folders... look at https://stackoverflow.com/questions/9235679/create-a-directory-if-it-doesnt-exist maybe?
+        // imwrite(argv[2]+"/"+ent->d_name, dest);
+        //
+        // free(inPixels);
+        // free(outPixels);
     }
-    //
-    // for() {
-    //     Mat image = imread(argv[1], CV_LOAD_IMAGE_COLOR);
-    //     if(image.empty()){
-    //       printf("Empty or bad file\n");
-    //       return -1;
-    //     }
-    //
-    //     const int rows = image.rows;
-    //     const int cols = image.cols;
-    //     pixel * inPixels = (pixel *) malloc(rows * cols * sizeof(pixel));
-    //     for(int i = 0; i < rows; ++i) {
-    //         for(int j = 0; j < cols; ++j) {
-    //             Vec3b p = image.at<Vec3b>(i, j);
-    //             inPixels[i + (j*rows)] = pixel(p[0]/255.0,p[1]/255.0,p[2]/255.0);
-    //         }
-    //     }
-    //
-    //     //create output pixels
-    //     pixel * outPixels = (pixel *) malloc(rows * cols * sizeof(pixel));
-    //     memcpy(outPixels, inPixels, sizeof(pixel)*rows*cols);
-    //
-    //     // https://stackoverflow.com/questions/15893591/confusion-between-opencv4android-and-c-data-types
-    //     vector <Rect> faceDetections;
-    //     faceDetector.detectMultiScale(image, faceDetections);
-    //
-    //     if(faceDetections.size() > 0 ){ //might not need this statement
-    //         for ( vector <Rect>::iterator rect_iter = faceDetections.begin(); rect_iter != faceDetections.end(); ++rect_iter) {
-    //             apply_blur(10, 1024.0, rect_iter->x, rect_iter->y, rect_iter->x + rect_iter->width, rect_iter->y + rect_iter->height, rows, cols, inPixels, outPixels);
-    //         }
-    //     }
-    //
-    //     Mat dest(rows, cols, CV_8UC3);
-    //     for(int i = 0; i < rows; ++i) {
-    //         for(int j = 0; j < cols; ++j) {
-    //             const size_t offset = i + (j*rows);
-    //             dest.at<Vec3b>(i, j) = Vec3b(floor(outPixels[offset].red * 255.0),
-    //                                          floor(outPixels[offset].green * 255.0),
-    //                                          floor(outPixels[offset].blue * 255.0));
-    //         }
-    //     }
-    //     imwrite("TEMP.jpg", dest);
-    //
-    //     free(inPixels);
-    //     free(outPixels);
-    // }
-    return 0;
+    closedir (dir);
+    return 1;
 }

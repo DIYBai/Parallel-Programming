@@ -120,7 +120,7 @@ int main(int argc, char **argv){
     // printf("%s/%s\n", argv[2], f_names[i]);
     for(int i = 0; i < count; i++){
         char in_loc[256];
-        sprintf(in_loc, "%s/%s", argv[1], f_names[i])
+        sprintf(in_loc, "%s/%s", argv[1], f_names[i]);
         Mat image = imread(in_loc, CV_LOAD_IMAGE_COLOR);
         if(image.empty()){
             printf("Empty or bad file\n");

@@ -111,10 +111,11 @@ int main(int argc, char **argv){
         //Saving filenames to array (can parallel process chunks)
         char *f_ext = strrchr(ent->d_name, '.');
         if ( f_ext && !strcmp(f_ext, ".jpg") ){
-            char f_name[256];
+            // char f_name[256];
             // sprintf(f_name, "%s/%s", argv[1], ent->d_name);
             // f_names[count] = f_name;
             strcpy(f_names[count], ent->d_name);
+            printf("In array: %s\n", f_names[count]);
             count++;
         }
     }

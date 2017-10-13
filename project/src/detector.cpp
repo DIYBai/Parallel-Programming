@@ -116,13 +116,13 @@ int main(int argc, char **argv){
         }
     }
     closedir(dir);
-    sort(f_names[0], f_names[count-1]); //https://stackoverflow.com/questions/5897319/how-to-use-stdsort-to-sort-an-array-in-c
+    // sort(f_names[0], f_names[count-1]); //https://stackoverflow.com/questions/5897319/how-to-use-stdsort-to-sort-an-array-in-c
 
     // printf("%s/%s\n", argv[1], f_names[i]);
     // printf("%s/%s\n", argv[2], f_names[i]);
     for(int i = 0; i < count; i++){
         char in_loc[256];
-        sprintf(in_loc, "%s/%s", argv[1], f_names[i]);
+        sprintf(in_loc, "%s/%s\n", argv[1], f_names[i]);
         printf(in_loc);
         Mat image = imread(in_loc, CV_LOAD_IMAGE_COLOR);
         if(image.empty()){

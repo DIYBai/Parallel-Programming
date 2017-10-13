@@ -201,6 +201,6 @@ int main(int argc, char **argv){
     clock_gettime(CLOCK_MONOTONIC,&end_time);
     long msec = (end_time.tv_sec - start_time.tv_sec)*1000 + (end_time.tv_nsec - start_time.tv_nsec)/1000000;
     printf("serial took %dms\n", msec);
-    /*
+    */
     return 0;
 }

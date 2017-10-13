@@ -6,3 +6,4 @@ cd ..
 bash get_frames.sh
 bash comp.sh
 ./detect_ser input serial_out
+bash write_to_video.sh

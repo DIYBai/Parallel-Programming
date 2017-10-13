@@ -142,7 +142,7 @@ int main(int argc, char **argv){
 
     struct timespec start_time;
     struct timespec end_time;
-    clock_gettime(CLOCK_MONOTONIC,&end_time);
+    clock_gettime(CLOCK_MONOTONIC,&start_time);
     for(int i = 0; i < count; i++){
         if( !(i%100) ) { //(i%100 == 0) {
             printf("Processed %d frames\n", i);

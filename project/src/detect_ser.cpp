@@ -56,6 +56,19 @@ void apply_blur(int radius, const double stddev, const int x1, const int y1, con
 
     // #pragma omp parallel for
     for(int i = y1; i < y2; ++i) {
+        if(x1-1 >= 0) {
+            const int left_pix = i + ( (x1-1)*rows );
+            out[left_pix].red = 200;
+            out[left_pix].green = 0;
+            out[left_pix].blue  = 0;
+        }
+        if(x2 < cols) {
+            const int right_pix = i + (x2*rows);
+            out[right_pix].red = 200;
+            out[right_pix].green = 0;
+            out[right_pix].blue  = 0;
+        }
+
         for(int j = x1; j < x2; ++j) {
             const int out_offset = i + (j*rows);
             //NOTE: small change from adapted code

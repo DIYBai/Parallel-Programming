@@ -166,7 +166,7 @@ int main( int argc, char* argv[] ) {
     struct timespec start_time;
     struct timespec end_time;
     clock_gettime(CLOCK_MONOTONIC,&start_time);
-    apply_stencil(3, 32.0, 10, 10, 100, 100, rows, cols, imagePixels, outPixels);
+    apply_stencil(10, 1024.0, 10, 10, 100, 100, rows, cols, imagePixels, outPixels);
     clock_gettime(CLOCK_MONOTONIC,&end_time);
     long msec = (end_time.tv_sec - start_time.tv_sec)*1000 + (end_time.tv_nsec - start_time.tv_nsec)/1000000;
     printf("Stencil application took %dms\n",msec);

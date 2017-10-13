@@ -5,10 +5,11 @@
 #include <dirent.h>
 #include <cmath>
 #include <iostream>
-// #include <algorithm>
 
 using namespace cv;
 using namespace std; //unsure if this is necessary/desireable
+
+const int SEE_BOX = 1;
 
 struct pixel {
     double red;
@@ -56,20 +57,23 @@ void apply_blur(int radius, const double stddev, const int x1, const int y1, con
 
     // #pragma omp parallel for
     for(int i = y1; i < y2; ++i) {
-        for (int temp = x1-5; temp < x1; ++temp){
-            if(temp >= 0 && temp < cols){
-                const int left_pix = i + (temp*rows);
-                out[left_pix].red = 200;
-                out[left_pix].green = 0;
-                out[left_pix].blue  = 0;
+        //below two for-loops purely for making blurred boxes more visible
+        if(SEE_BOX){
+            for (int temp = x1-5; temp < x1; ++temp){
+                if(temp >= 0 && temp < cols){
+                    const int left_pix = i + (temp*rows);
+                    out[left_pix].red = 200;
+                    out[left_pix].green = 0;
+                    out[left_pix].blue  = 0;
+                }
             }
-        }
-        for (int temp = x2; temp < x2 + 5; ++temp){
-            if(temp >= 0 && temp < cols){
-                const int right_pix = i + (temp*rows);
-                out[right_pix].red = 200;
-                out[right_pix].green = 0;
-                out[right_pix].blue  = 0;
+            for (int temp = x2; temp < x2 + 5; ++temp){
+                if(temp >= 0 && temp < cols){
+                    const int right_pix = i + (temp*rows);
+                    out[right_pix].red = 200;
+                    out[right_pix].green = 0;
+                    out[right_pix].blue  = 0;
+                }
             }
         }
 
@@ -185,7 +189,6 @@ int main(int argc, char **argv){
         char out_loc[256];
         sprintf(out_loc, "%s/out_%s", argv[2], f_names[i]);
         imwrite(out_loc, dest);
-        // printf("Finished processing %s\n", out_loc);
 
         free(inPixels);
         free(outPixels);

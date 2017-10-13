@@ -170,5 +170,5 @@ int main(int argc, char **argv){
         free(inPixels);
         free(outPixels);
     }
-    return 1;
+    return 0;
 }

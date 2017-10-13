@@ -1,21 +1,18 @@
-git reset --hard
-git pull
-
-cd input
-rm *.jpg
-cd ..
-bash get_frames.sh
+# cd input
+# rm *.jpg
+# cd ..
+# bash get_frames.sh
 
 bash comp.sh
-#cd serial_out
-#rm *.jpg
-#cd ..
-./detect_ser input serial_out > ser_fnames.txt
+cd serial_out
+rm *.jpg
+cd ..
+./detect_ser input serial_out #> ser_fnames.txt
 
-#cd omp_out
-#rm *.jpg
-#cd ..
-./detect_omp input omp_out > omp_fnames.txt
+cd omp_out
+rm *.jpg
+cd ..
+./detect_omp input omp_out #> omp_fnames.txt
 
 #cd cilk_out
 #rm *.jpg

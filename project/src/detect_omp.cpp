@@ -12,7 +12,7 @@ using namespace cv;
 using namespace std; //unsure if this is necessary/desireable
 
 const int SEE_BOX = 1;
-omp_lock_t lock;
+// omp_lock_t lock;
 
 struct pixel {
     double red;
@@ -132,14 +132,14 @@ int main(int argc, char **argv){
         char *f_ext = strrchr(ent->d_name, '.');
         if ( f_ext && !strcmp(f_ext, ".jpg") ){
             strcpy(f_names[count], ent->d_name);
-            printf("Found file: %s\n", ent->d_name);
+            // printf("Found file: %s\n", ent->d_name);
             count++;
         }
     }
     closedir(dir);
     // sort(f_names[0], f_names[count-1]); //https://stackoverflow.com/questions/5897319/how-to-use-stdsort-to-sort-an-array-in-c
 
-    /*
+
     // Obtained from: https://github.com/opencv/opencv/blob/master/data/haarcascades/haarcascade_frontalface_alt.xml
     CascadeClassifier faceDetector = CascadeClassifier("haarcascade_frontalface_alt.xml");
 
@@ -149,9 +149,9 @@ int main(int argc, char **argv){
 
     #pragma omp parallel for
     for(int i = 0; i < count; i++){
-        if( !(i%100) ) { //(i%100 == 0) {
-            printf("Processed %d frames\n", i);
-        }
+        // if( !(i%100) ) { //(i%100 == 0) {
+        //     printf("Processed %d frames\n", i);
+        // }
         char in_loc[256];
         sprintf(in_loc, "%s/%s", argv[1], f_names[i]);
         // printf(in_loc);
@@ -198,9 +198,9 @@ int main(int argc, char **argv){
         char out_loc[256];
         sprintf(out_loc, "%s/out_%s", argv[2], f_names[i]);
 
-        omp_set_lock(&lock);
+        // omp_set_lock(&lock);
         imwrite(out_loc, dest);
-        omp_unset_lock(&lock);
+        // omp_unset_lock(&lock);
 
 
         free(inPixels);
@@ -209,6 +209,6 @@ int main(int argc, char **argv){
     clock_gettime(CLOCK_MONOTONIC,&end_time);
     long msec = (end_time.tv_sec - start_time.tv_sec)*1000 + (end_time.tv_nsec - start_time.tv_nsec)/1000000;
     printf("omp took %dms\n", msec);
-    */
+
     return 0;
 }

@@ -2,9 +2,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <dirent.h>
 #include <cmath>
 #include <iostream>
-#include <dirent.h>
+#include <algorithm>
 
 using namespace cv;
 using namespace std; //unsure if this is necessary/desireable
@@ -110,12 +111,12 @@ int main(int argc, char **argv){
         char *f_ext = strrchr(ent->d_name, '.');
         if ( f_ext && !strcmp(f_ext, ".jpg") ){
             strcpy(f_names[count], ent->d_name);
-            printf("Found file: %s\n", ent->d_name);
+            // printf("Found file: %s\n", ent->d_name);
             count++;
         }
     }
     closedir(dir);
-
+    sort(begin(f_names), end(f_names)); //https://stackoverflow.com/questions/5897319/how-to-use-stdsort-to-sort-an-array-in-c
 
     // printf("%s/%s\n", argv[1], f_names[i]);
     // printf("%s/%s\n", argv[2], f_names[i]);

@@ -155,7 +155,7 @@ int main(int argc, char **argv){
         Mat image = imread(in_loc, CV_LOAD_IMAGE_COLOR);
         if(image.empty()){
             printf("Empty or bad file\n");
-            break;
+            return -1;
         }
 
         const int rows = image.rows;

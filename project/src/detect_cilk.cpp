@@ -153,7 +153,7 @@ int main(int argc, char **argv){
         // printf(in_loc);
         Mat image = imread(in_loc, CV_LOAD_IMAGE_COLOR);
         if(image.empty()){
-            printf("Empty or bad file\n");
+            printf("Empty or bad file: %s\n", in_loc);
             return -1;
         }
 

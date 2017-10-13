@@ -6,6 +6,7 @@
 #include <time.h>
 #include <cmath>
 #include <iostream>
+#include <omp.h>
 
 using namespace cv;
 using namespace std; //unsure if this is necessary/desireable
@@ -139,6 +140,7 @@ int main(int argc, char **argv){
 
     // Obtained from: https://github.com/opencv/opencv/blob/master/data/haarcascades/haarcascade_frontalface_alt.xml
     CascadeClassifier faceDetector = CascadeClassifier("haarcascade_frontalface_alt.xml");
+    #pragma omp parallel for
     for(int i = 0; i < count; i++){
         if( !(i%100) ) { //(i%100 == 0) {
             printf("Processed %d frames\n", i);

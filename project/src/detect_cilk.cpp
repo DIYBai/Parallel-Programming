@@ -6,6 +6,7 @@
 #include <time.h>
 #include <cmath>
 #include <iostream>
+#include <cilk/cilk.h>
 
 using namespace cv;
 using namespace std; //unsure if this is necessary/desireable
@@ -139,7 +140,7 @@ int main(int argc, char **argv){
 
     // Obtained from: https://github.com/opencv/opencv/blob/master/data/haarcascades/haarcascade_frontalface_alt.xml
     CascadeClassifier faceDetector = CascadeClassifier("haarcascade_frontalface_alt.xml");
-    for(int i = 0; i < count; i++){
+    cilk_for(int i = 0; i < count; i++){
         if( !(i%100) ) { //(i%100 == 0) {
             printf("Processed %d frames\n", i);
         }

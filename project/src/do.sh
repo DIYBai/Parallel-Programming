@@ -10,11 +10,11 @@ bash comp.sh
 #cd serial_out
 #rm *.jpg
 #cd ..
-#./detect_ser input serial_out
+./detect_ser input serial_out
 
-cd omp_out
-rm *.jpg
-cd ..
+#cd omp_out
+#rm *.jpg
+#cd ..
 ./detect_omp input omp_out
 
 #cd cilk_out
@@ -22,13 +22,13 @@ cd ..
 #cd ..
 #./detect_cilk input cilk_out
 
-cd serial_out
-rm *.mp4
-cd ..
-cd omp_out
-rm *.mp4
-cd ..
-cd cilk_out
-rm *.mp4
-cd ..
-bash write_to_video.sh
+# cd serial_out
+# rm *.mp4
+# cd ..
+# cd omp_out
+# rm *.mp4
+# cd ..
+# cd cilk_out
+# rm *.mp4
+# cd ..
+# bash write_to_video.sh

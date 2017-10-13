@@ -132,7 +132,7 @@ int main(int argc, char **argv){
         char *f_ext = strrchr(ent->d_name, '.');
         if ( f_ext && !strcmp(f_ext, ".jpg") ){
             strcpy(f_names[count], ent->d_name);
-            // printf("Found file: %s\n", ent->d_name);
+            printf("Found file: %s\n", ent->d_name);
             count++;
         }
     }
@@ -145,6 +145,7 @@ int main(int argc, char **argv){
     struct timespec start_time;
     struct timespec end_time;
     clock_gettime(CLOCK_MONOTONIC,&start_time);
+
     #pragma omp parallel for
     for(int i = 0; i < count; i++){
         if( !(i%100) ) { //(i%100 == 0) {

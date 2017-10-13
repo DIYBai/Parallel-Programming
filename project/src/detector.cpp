@@ -146,7 +146,7 @@ int main(int argc, char **argv){
         faceDetector.detectMultiScale(image, faceDetections);
 
         if(faceDetections.size() > 0 ){ //might not need this statement
-            printf("Face found in frame %d", count );
+            printf("Face found in frame %d\n", count );
             for ( vector <Rect>::iterator rect_iter = faceDetections.begin(); rect_iter != faceDetections.end(); ++rect_iter) {
                 apply_blur(10, 1024.0, rect_iter->x, rect_iter->y, rect_iter->x + rect_iter->width, rect_iter->y + rect_iter->height, rows, cols, inPixels, outPixels);
             }
@@ -165,7 +165,7 @@ int main(int argc, char **argv){
         char out_loc[256];
         sprintf(out_loc, "%s/out_%s", argv[2], f_names[i]);
         imwrite(out_loc, dest);
-        printf("Finished processing %s", out_loc);
+        printf("Finished processing %s\n", out_loc);
 
         free(inPixels);
         free(outPixels);

@@ -131,6 +131,9 @@ int main(int argc, char **argv){
     // Obtained from: https://github.com/opencv/opencv/blob/master/data/haarcascades/haarcascade_frontalface_alt.xml
     CascadeClassifier faceDetector = CascadeClassifier("haarcascade_frontalface_alt.xml");
     for(int i = 0; i < count; i++){
+        if(!i%100) { //(i%100 == 0) {
+            printf("Processed %d frames\n", i);
+        }
         char in_loc[256];
         sprintf(in_loc, "%s/%s", argv[1], f_names[i]);
         // printf(in_loc);
@@ -178,7 +181,7 @@ int main(int argc, char **argv){
         char out_loc[256];
         sprintf(out_loc, "%s/out_%s", argv[2], f_names[i]);
         imwrite(out_loc, dest);
-        printf("Finished processing %s\n", out_loc);
+        // printf("Finished processing %s\n", out_loc);
 
         free(inPixels);
         free(outPixels);

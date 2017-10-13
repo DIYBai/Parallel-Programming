@@ -12,6 +12,7 @@ using namespace cv;
 using namespace std; //unsure if this is necessary/desireable
 
 const int SEE_BOX = 1;
+omp_lock_t lock;
 
 struct pixel {
     double red;
@@ -143,7 +144,7 @@ int main(int argc, char **argv){
 
     struct timespec start_time;
     struct timespec end_time;
-    clock_gettime(CLOCK_MONOTONIC,&end_time);
+    clock_gettime(CLOCK_MONOTONIC,&start_time);
     #pragma omp parallel for
     for(int i = 0; i < count; i++){
         if( !(i%100) ) { //(i%100 == 0) {
@@ -194,7 +195,11 @@ int main(int argc, char **argv){
 
         char out_loc[256];
         sprintf(out_loc, "%s/out_%s", argv[2], f_names[i]);
+
+        omp_set_lock(&lock);
         imwrite(out_loc, dest);
+        omp_unset_lock(&lock);
+
 
         free(inPixels);
         free(outPixels);

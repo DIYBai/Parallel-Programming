@@ -110,6 +110,7 @@ int main(int argc, char **argv){
         char *f_ext = strrchr(ent->d_name, '.');
         if ( f_ext && !strcmp(f_ext, ".jpg") ){
             strcpy(f_names[count], ent->d_name);
+            printf("Found file: %s\n", ent->d_name)
             count++;
         }
     }

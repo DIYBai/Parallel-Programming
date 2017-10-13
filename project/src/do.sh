@@ -1,7 +1,7 @@
-# cd input
-# rm *.jpg
-# cd ..
-# bash get_frames.sh
+cd input
+rm *.jpg
+cd ..
+bash get_frames.sh
 
 bash comp.sh
 cd serial_out

@@ -1,3 +1,5 @@
+git reset --hard
+git pull
 cd input
 rm *.jpg
 cd ..

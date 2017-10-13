@@ -116,7 +116,7 @@ int main(int argc, char **argv){
         }
     }
     closedir(dir);
-    sort(begin(f_names), end(f_names)); //https://stackoverflow.com/questions/5897319/how-to-use-stdsort-to-sort-an-array-in-c
+    sort(f_names[0], f_names[count-1]); //https://stackoverflow.com/questions/5897319/how-to-use-stdsort-to-sort-an-array-in-c
 
     // printf("%s/%s\n", argv[1], f_names[i]);
     // printf("%s/%s\n", argv[2], f_names[i]);

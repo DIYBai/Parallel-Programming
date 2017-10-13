@@ -121,6 +121,7 @@ int main(int argc, char **argv){
     for(int i = 0; i < count; i++){
         char in_loc[256];
         sprintf(in_loc, "%s/%s", argv[1], f_names[i]);
+        printf(in_loc);
         Mat image = imread(in_loc, CV_LOAD_IMAGE_COLOR);
         if(image.empty()){
             printf("Empty or bad file\n");
@@ -146,7 +147,7 @@ int main(int argc, char **argv){
         faceDetector.detectMultiScale(image, faceDetections);
 
         if(faceDetections.size() > 0 ){ //might not need this statement
-            printf("Face found in frame %d\n", count );
+            printf("Face found in frame %d\n", i );
             for ( vector <Rect>::iterator rect_iter = faceDetections.begin(); rect_iter != faceDetections.end(); ++rect_iter) {
                 apply_blur(10, 1024.0, rect_iter->x, rect_iter->y, rect_iter->x + rect_iter->width, rect_iter->y + rect_iter->height, rows, cols, inPixels, outPixels);
             }

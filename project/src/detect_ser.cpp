@@ -135,7 +135,7 @@ int main(int argc, char **argv){
     // Obtained from: https://github.com/opencv/opencv/blob/master/data/haarcascades/haarcascade_frontalface_alt.xml
     CascadeClassifier faceDetector = CascadeClassifier("haarcascade_frontalface_alt.xml");
     for(int i = 0; i < count; i++){
-        if(!i%100) { //(i%100 == 0) {
+        if( !(i%100) ) { //(i%100 == 0) {
             printf("Processed %d frames\n", i);
         }
         char in_loc[256];
@@ -166,7 +166,7 @@ int main(int argc, char **argv){
         faceDetector.detectMultiScale(image, faceDetections);
 
         if(faceDetections.size() > 0 ){ //might not need this statement
-            printf("Face found in frame %d\n", i );
+            printf("Face found in frame %s\n", f_names[i] );
             for ( vector <Rect>::iterator rect_iter = faceDetections.begin(); rect_iter != faceDetections.end(); ++rect_iter) {
                 apply_blur(10, 1024.0, rect_iter->x, rect_iter->y, rect_iter->x + rect_iter->width, rect_iter->y + rect_iter->height, rows, cols, inPixels, outPixels);
             }

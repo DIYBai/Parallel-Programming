@@ -140,6 +140,8 @@ int main(int argc, char **argv){
     // Obtained from: https://github.com/opencv/opencv/blob/master/data/haarcascades/haarcascade_frontalface_alt.xml
     CascadeClassifier faceDetector = CascadeClassifier("haarcascade_frontalface_alt.xml");
 
+    struct timespec start_time;
+    struct timespec end_time;
     clock_gettime(CLOCK_MONOTONIC,&end_time);
     for(int i = 0; i < count; i++){
         if( !(i%100) ) { //(i%100 == 0) {

@@ -139,6 +139,8 @@ int main(int argc, char **argv){
 
     // Obtained from: https://github.com/opencv/opencv/blob/master/data/haarcascades/haarcascade_frontalface_alt.xml
     CascadeClassifier faceDetector = CascadeClassifier("haarcascade_frontalface_alt.xml");
+
+    clock_gettime(CLOCK_MONOTONIC,&end_time);
     for(int i = 0; i < count; i++){
         if( !(i%100) ) { //(i%100 == 0) {
             printf("Processed %d frames\n", i);
@@ -170,8 +172,8 @@ int main(int argc, char **argv){
         vector <Rect> faceDetections;
         faceDetector.detectMultiScale(image, faceDetections);
 
-        if(faceDetections.size() > 0 ){ //might not need this statement
-            printf("Face found in frame %s\n", f_names[i] );
+        if( faceDetections.size() > 0){ //TODO: remove >0...unnecessary
+            // printf("Face found in frame %s\n", f_names[i] );
             for ( vector <Rect>::iterator rect_iter = faceDetections.begin(); rect_iter != faceDetections.end(); ++rect_iter) {
                 apply_blur(10, 1024.0, rect_iter->x, rect_iter->y, rect_iter->x + rect_iter->width, rect_iter->y + rect_iter->height, rows, cols, inPixels, outPixels);
             }
@@ -194,5 +196,8 @@ int main(int argc, char **argv){
         free(inPixels);
         free(outPixels);
     }
+    clock_gettime(CLOCK_MONOTONIC,&end_time);
+    long msec = (end_time.tv_sec - start_time.tv_sec)*1000 + (end_time.tv_nsec - start_time.tv_nsec)/1000000;
+    printf("serial took %dms\n", msec);
     return 0;
 }

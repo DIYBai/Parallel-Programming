@@ -118,7 +118,7 @@ int main(int argc, char **argv){
     int count = 0;
     while ( (ent = readdir(dir)) != NULL ) {
         char *f_ext = strrchr(ent->d_name, '.'); //https://stackoverflow.com/questions/10347689/how-can-i-check-whether-a-string-ends-with-csv-in-c
-        if ( f_ext && !strcmp(f_ext, ".jpg") ){
+        if ( f_ext && !strcmp(f_ext, ".png") ){
           count++;
         }
     }
@@ -128,7 +128,7 @@ int main(int argc, char **argv){
     count = 0;
     while ( (ent = readdir(dir)) != NULL ){
         char *f_ext = strrchr(ent->d_name, '.');
-        if ( f_ext && !strcmp(f_ext, ".jpg") ){
+        if ( f_ext && !strcmp(f_ext, ".png") ){
             strcpy(f_names[count], ent->d_name);
             // printf("Found file: %s\n", ent->d_name);
             count++;

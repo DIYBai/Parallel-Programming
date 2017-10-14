@@ -141,7 +141,7 @@ int main(int argc, char **argv){
 
     struct timespec start_time;
     struct timespec end_time;
-    printf("Starting cilk processing");
+    printf("\nStarting cilk processing\n");
     clock_gettime(CLOCK_MONOTONIC,&start_time);
 
     cilk_for(int i = 0; i < count; i++){

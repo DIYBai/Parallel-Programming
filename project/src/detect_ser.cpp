@@ -140,7 +140,7 @@ int main(int argc, char **argv){
 
     struct timespec start_time;
     struct timespec end_time;
-    printf("Starting serial processing");
+    printf("\nStarting serial processing\n");
     clock_gettime(CLOCK_MONOTONIC,&start_time);
     for(int i = 0; i < count; i++){
         if( !(i%50) ) { //(i%100 == 0) {

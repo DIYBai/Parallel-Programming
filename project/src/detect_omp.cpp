@@ -143,7 +143,7 @@ int main(int argc, char **argv){
 
     struct timespec start_time;
     struct timespec end_time;
-    printf("Starting omp processing");
+    printf("\nStarting omp processing\n");
     clock_gettime(CLOCK_MONOTONIC,&start_time);
 
     #pragma omp parallel for

@@ -82,13 +82,11 @@ void apply_blur(int radius, const double stddev, const int x1, const int y1, con
         for(int j = x1; j < x2; ++j) {
             const int out_offset = i + (j*rows);
             //NOTE: small change from adapted code
-            //TODO: Mostly works, but check edge cases (see example in misc)
             out[out_offset].red   = 0;
             out[out_offset].green = 0;
             out[out_offset].blue  = 0;
             for(int x = i - radius, kx = 0; x <= i + radius; ++x, ++kx) {
                 for(int y = j - radius, ky = 0; y <= j + radius; ++y, ++ky) {
-                    //TODO: consider the edge cases instead of treating them as 0s (by not adding)
                     if(x >= 0 && x < rows && y >= 0 && y < cols) {
                         // Acculate intensities in the output pixel
                         const int in_offset = x + (y*rows);
@@ -144,13 +142,12 @@ int main(int argc, char **argv){
     struct timespec start_time;
     struct timespec end_time;
     clock_gettime(CLOCK_MONOTONIC,&start_time);
+
     cilk_for(int i = 0; i < count; i++){
-        if( !(i%100) ) { //(i%100 == 0) {
-            printf("Processed %d frames\n", i);
-        }
         char in_loc[256];
         sprintf(in_loc, "%s/%s", argv[1], f_names[i]);
         // printf(in_loc);
+
         Mat image = imread(in_loc, CV_LOAD_IMAGE_COLOR);
         if(image.empty()){
             printf("Empty or bad file: %s\n", in_loc);
@@ -200,6 +197,7 @@ int main(int argc, char **argv){
     }
     clock_gettime(CLOCK_MONOTONIC,&end_time);
     long msec = (end_time.tv_sec - start_time.tv_sec)*1000 + (end_time.tv_nsec - start_time.tv_nsec)/1000000;
-    printf("cilk took %dms\n", msec);
+    printf("omp took %dms\n", msec);
+
     return 0;
 }

@@ -1,6 +1,3 @@
-cd input
-rm *.png
-cd ..
 bash get_frames.sh
 
 bash comp.sh
@@ -20,13 +17,4 @@ rm *.png
 cd ..
 ./detect_cilk input cilk_out
 
-cd serial_out
-rm *.mp4
-cd ..
-cd omp_out
-rm *.mp4
-cd ..
-cd cilk_out
-rm *.mp4
-cd ..
 bash write_to_video.sh

@@ -203,7 +203,7 @@ int main(int argc, char **argv){
     printf("omp took %dms\n", msec);
 
     char out_faces[256];
-    sprintf(out_faces, "%s/omp_faces.txt", argv[2]);
+    sprintf(out_faces, "%s/cilk_faces.txt", argv[2]);
     FILE *faces = fopen(out_faces, "w");
     for(int i = 0; i < count; i++) {
         if(face_found[i]){

@@ -204,7 +204,7 @@ int main(int argc, char **argv){
 
     char out_faces[256];
     sprintf(out_faces, "%s/ser_faces.txt", argv[2]);
-    faces = fopen(out_faces, "w");
+    FILE *faces = fopen(out_faces, "w");
     for(int i = 0; i < count; i++) {
         if(face_found[i]){
             fprintf(faces, "%s\n", f_names[i]);

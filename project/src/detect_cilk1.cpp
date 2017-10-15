@@ -82,13 +82,11 @@ void apply_blur(int radius, const double stddev, const int x1, const int y1, con
         for(int j = x1; j < x2; ++j) {
             const int out_offset = i + (j*rows);
             //NOTE: small change from adapted code
-            //TODO: Mostly works, but check edge cases (see example in misc)
             out[out_offset].red   = 0;
             out[out_offset].green = 0;
             out[out_offset].blue  = 0;
             for(int x = i - radius, kx = 0; x <= i + radius; ++x, ++kx) {
                 for(int y = j - radius, ky = 0; y <= j + radius; ++y, ++ky) {
-                    //TODO: consider the edge cases instead of treating them as 0s (by not adding)
                     if(x >= 0 && x < rows && y >= 0 && y < cols) {
                         // Acculate intensities in the output pixel
                         const int in_offset = x + (y*rows);
@@ -119,17 +117,18 @@ int main(int argc, char **argv){
     int count = 0;
     while ( (ent = readdir(dir)) != NULL ) {
         char *f_ext = strrchr(ent->d_name, '.'); //https://stackoverflow.com/questions/10347689/how-can-i-check-whether-a-string-ends-with-csv-in-c
-        if ( f_ext && !strcmp(f_ext, ".jpg") ){
+        if ( f_ext && !strcmp(f_ext, ".png") ){
           count++;
         }
     }
     char f_names[count][256]; //hardcoded buffer size of 256 chars
+    int  face_found[count] = {0};
 
     rewinddir(dir);
     count = 0;
     while ( (ent = readdir(dir)) != NULL ){
         char *f_ext = strrchr(ent->d_name, '.');
-        if ( f_ext && !strcmp(f_ext, ".jpg") ){
+        if ( f_ext && !strcmp(f_ext, ".png") ){
             strcpy(f_names[count], ent->d_name);
             // printf("Found file: %s\n", ent->d_name);
             count++;
@@ -143,14 +142,14 @@ int main(int argc, char **argv){
 
     struct timespec start_time;
     struct timespec end_time;
+    printf("\nStarting cilk processing\n");
     clock_gettime(CLOCK_MONOTONIC,&start_time);
+
     cilk_for(int i = 0; i < count; i++){
-        if( !(i%100) ) { //(i%100 == 0) {
-            printf("Processed %d frames\n", i);
-        }
         char in_loc[256];
         sprintf(in_loc, "%s/%s", argv[1], f_names[i]);
         // printf(in_loc);
+
         Mat image = imread(in_loc, CV_LOAD_IMAGE_COLOR);
         if(image.empty()){
             printf("Empty or bad file: %s\n", in_loc);
@@ -176,6 +175,7 @@ int main(int argc, char **argv){
 
         if(faceDetections.size() > 0 ){ //might not need this statement
             // printf("Face found in frame %s\n", f_names[i] );
+            face_found[i] = 1;
             for ( vector <Rect>::iterator rect_iter = faceDetections.begin(); rect_iter != faceDetections.end(); ++rect_iter) {
                 apply_blur(10, 1024.0, rect_iter->x, rect_iter->y, rect_iter->x + rect_iter->width, rect_iter->y + rect_iter->height, rows, cols, inPixels, outPixels);
             }
@@ -200,6 +200,18 @@ int main(int argc, char **argv){
     }
     clock_gettime(CLOCK_MONOTONIC,&end_time);
     long msec = (end_time.tv_sec - start_time.tv_sec)*1000 + (end_time.tv_nsec - start_time.tv_nsec)/1000000;
-    printf("cilk took %dms\n", msec);
+    printf("omp took %dms\n", msec);
+
+    char out_faces[256];
+    sprintf(out_faces, "%s/cilk_faces.txt", argv[2]);
+    FILE *faces = fopen(out_faces, "w");
+    for(int i = 0; i < count; i++) {
+        fprintf(faces, "%d: %s\n", face_found[i], f_names[i]);
+        // if(face_found[i]){
+        //     fprintf(faces, "%s\n", f_names[i]);
+        // }
+    }
+    fclose(faces);
+
     return 0;
 }

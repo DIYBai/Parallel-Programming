@@ -138,10 +138,6 @@ int main(int argc, char **argv){
     closedir(dir);
     // sort(f_names[0], f_names[count-1]); //https://stackoverflow.com/questions/5897319/how-to-use-stdsort-to-sort-an-array-in-c
 
-
-    // Obtained from: https://github.com/opencv/opencv/blob/master/data/haarcascades/haarcascade_frontalface_alt.xml
-    CascadeClassifier faceDetector = CascadeClassifier("haarcascade_frontalface_alt.xml");
-
     struct timespec start_time;
     struct timespec end_time;
     printf("\nStarting omp processing\n");
@@ -149,6 +145,8 @@ int main(int argc, char **argv){
 
     #pragma omp parallel for
     for(int i = 0; i < count; i++){
+        // Obtained from: https://github.com/opencv/opencv/blob/master/data/haarcascades/haarcascade_frontalface_alt.xml
+        CascadeClassifier faceDetector = CascadeClassifier("haarcascade_frontalface_alt.xml");
         char in_loc[256];
         sprintf(in_loc, "%s/%s", argv[1], f_names[i]);
         // printf(in_loc);

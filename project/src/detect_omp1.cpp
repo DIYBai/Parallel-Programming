@@ -6,11 +6,13 @@
 #include <time.h>
 #include <cmath>
 #include <iostream>
+#include <omp.h>
 
 using namespace cv;
 using namespace std; //unsure if this is necessary/desireable
 
 const int SEE_BOX = 1;
+// omp_lock_t lock;
 
 struct pixel {
     double red;
@@ -136,24 +138,25 @@ int main(int argc, char **argv){
     closedir(dir);
     // sort(f_names[0], f_names[count-1]); //https://stackoverflow.com/questions/5897319/how-to-use-stdsort-to-sort-an-array-in-c
 
+
+    // Obtained from: https://github.com/opencv/opencv/blob/master/data/haarcascades/haarcascade_frontalface_alt.xml
+    CascadeClassifier faceDetector = CascadeClassifier("haarcascade_frontalface_alt.xml");
+
     struct timespec start_time;
     struct timespec end_time;
-    printf("\nStarting serial processing\n");
+    printf("\nStarting omp processing\n");
     clock_gettime(CLOCK_MONOTONIC,&start_time);
+
+    #pragma omp parallel for
     for(int i = 0; i < count; i++){
-        // Obtained from: https://github.com/opencv/opencv/blob/master/data/haarcascades/haarcascade_frontalface_alt.xml
-        CascadeClassifier faceDetector = CascadeClassifier("haarcascade_frontalface_alt.xml");
-        
-        if( !(i%50) ) { //(i%100 == 0) {
-            printf("Processed %d frames\n", i);
-        }
         char in_loc[256];
         sprintf(in_loc, "%s/%s", argv[1], f_names[i]);
         // printf(in_loc);
+
+        //also lock read?
         Mat image = imread(in_loc, CV_LOAD_IMAGE_COLOR);
         if(image.empty()){
-            printf("Empty or bad file\n");
-            break;
+            printf("Empty or bad file: %s\n", in_loc);
         }
 
         const int rows = image.rows;
@@ -174,8 +177,9 @@ int main(int argc, char **argv){
         vector <Rect> faceDetections;
         faceDetector.detectMultiScale(image, faceDetections);
 
-        if( faceDetections.size() > 0){ //TODO: remove >0...unnecessary
+        if(faceDetections.size() > 0 ){ //might not need this statement
             face_found[i] = 1;
+            // printf("Face found in frame %s\n", f_names[i] );
             for ( vector <Rect>::iterator rect_iter = faceDetections.begin(); rect_iter != faceDetections.end(); ++rect_iter) {
                 apply_blur(10, 1024.0, rect_iter->x, rect_iter->y, rect_iter->x + rect_iter->width, rect_iter->y + rect_iter->height, rows, cols, inPixels, outPixels);
             }
@@ -193,17 +197,21 @@ int main(int argc, char **argv){
 
         char out_loc[256];
         sprintf(out_loc, "%s/out_%s", argv[2], f_names[i]);
+
+        // omp_set_lock(&lock);
         imwrite(out_loc, dest);
+        // omp_unset_lock(&lock);
+
 
         free(inPixels);
         free(outPixels);
     }
     clock_gettime(CLOCK_MONOTONIC,&end_time);
     long msec = (end_time.tv_sec - start_time.tv_sec)*1000 + (end_time.tv_nsec - start_time.tv_nsec)/1000000;
-    printf("serial took %dms\n", msec);
+    printf("omp took %dms\n", msec);
 
     char out_faces[256];
-    sprintf(out_faces, "%s/ser_faces.txt", argv[2]);
+    sprintf(out_faces, "%s/omp_faces.txt", argv[2]);
     FILE *faces = fopen(out_faces, "w");
     for(int i = 0; i < count; i++) {
         fprintf(faces, "%d: %s\n", face_found[i], f_names[i]);

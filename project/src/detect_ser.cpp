@@ -210,7 +210,7 @@ int main(int argc, char **argv){
             fprintf(faces, "%s\n", f_names[i]);
         }
     }
-
     fclose(faces);
+
     return 0;
 }

@@ -121,6 +121,7 @@ int main(int argc, char **argv){
         }
     }
     char f_names[count][256]; //hardcoded buffer size of 256 chars
+    int  face_found[count] = {0};
 
     rewinddir(dir);
     count = 0;
@@ -174,7 +175,7 @@ int main(int argc, char **argv){
         faceDetector.detectMultiScale(image, faceDetections);
 
         if( faceDetections.size() > 0){ //TODO: remove >0...unnecessary
-            // printf("Face found in frame %s\n", f_names[i] );
+            face_found[i] = 1;
             for ( vector <Rect>::iterator rect_iter = faceDetections.begin(); rect_iter != faceDetections.end(); ++rect_iter) {
                 apply_blur(10, 1024.0, rect_iter->x, rect_iter->y, rect_iter->x + rect_iter->width, rect_iter->y + rect_iter->height, rows, cols, inPixels, outPixels);
             }
@@ -201,5 +202,15 @@ int main(int argc, char **argv){
     long msec = (end_time.tv_sec - start_time.tv_sec)*1000 + (end_time.tv_nsec - start_time.tv_nsec)/1000000;
     printf("serial took %dms\n", msec);
 
+    char out_faces[256];
+    sprintf(out_faces, "%s/ser_faces.txt", argv[2]);
+    faces = fopen(out_faces, "w");
+    for(int i = 0; i < count; i++) {
+        if(face_found[i]){
+            fprintf(faces, "%s\n", f_names[i]);
+        }
+    }
+
+    fclose(faces);
     return 0;
 }

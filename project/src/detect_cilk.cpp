@@ -199,7 +199,7 @@ int main(int argc, char **argv){
     }
     clock_gettime(CLOCK_MONOTONIC,&end_time);
     long msec = (end_time.tv_sec - start_time.tv_sec)*1000 + (end_time.tv_nsec - start_time.tv_nsec)/1000000;
-    printf("omp took %dms\n", msec);
+    printf("cilk took %dms\n", msec);
 
     char out_faces[256];
     sprintf(out_faces, "%s/cilk_faces.txt", argv[2]);

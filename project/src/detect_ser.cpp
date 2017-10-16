@@ -143,10 +143,10 @@ int main(int argc, char **argv){
     for(int i = 0; i < count; i++){
         // Obtained from: https://github.com/opencv/opencv/blob/master/data/haarcascades/haarcascade_frontalface_alt.xml
         CascadeClassifier faceDetector = CascadeClassifier("haarcascade_frontalface_alt.xml");
-        
-        if( !(i%50) ) { //(i%100 == 0) {
-            printf("Processed %d frames\n", i);
-        }
+
+        // if( !(i%50) ) { //(i%100 == 0) {
+        //     printf("Processed %d frames\n", i);
+        // }
         char in_loc[256];
         sprintf(in_loc, "%s/%s", argv[1], f_names[i]);
         // printf(in_loc);

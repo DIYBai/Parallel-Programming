@@ -1,1 +1,1 @@
-srun bash comp2.sh
+srun bash scripts/comp2.sh

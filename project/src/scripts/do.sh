@@ -1,8 +1,8 @@
-bash get_frames.sh
+# bash get_frames.sh
 
-bash comp.sh
+bash scripts/comp.sh
 
-bash time.sh
+# bash scripts/time.sh
 
 # cd 12serial_out
 # rm *.png

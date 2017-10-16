@@ -1,4 +1,4 @@
-bash get_frames.sh
+bash scripts/get_frames.sh
 
 # bash scripts/comp.sh
 

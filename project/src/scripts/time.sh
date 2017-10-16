@@ -19,7 +19,7 @@ cd ..
 cd 2cilk_out
 rm *.png
 cd ..
-./detect_cilk 2input 2cilk_out
+./bin/detect_cilk 2input 2cilk_out
 cd 2cilk_out
 rm *.png
 cd ..

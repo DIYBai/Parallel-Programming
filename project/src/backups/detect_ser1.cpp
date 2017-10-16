@@ -1,3 +1,5 @@
+//Old version
+
 #include "inclusion.hpp"
 #include <stdlib.h>
 #include <stdio.h>
@@ -6,7 +8,6 @@
 #include <time.h>
 #include <cmath>
 #include <iostream>
-#include <cilk/cilk.h>
 
 using namespace cv;
 using namespace std; //unsure if this is necessary/desireable
@@ -142,17 +143,19 @@ int main(int argc, char **argv){
 
     struct timespec start_time;
     struct timespec end_time;
-    printf("\nStarting cilk processing\n");
+    printf("\nStarting serial processing\n");
     clock_gettime(CLOCK_MONOTONIC,&start_time);
-
-    cilk_for(int i = 0; i < count; i++){
+    for(int i = 0; i < count; i++){
+        if( !(i%50) ) { //(i%100 == 0) {
+            printf("Processed %d frames\n", i);
+        }
         char in_loc[256];
         sprintf(in_loc, "%s/%s", argv[1], f_names[i]);
         // printf(in_loc);
-
         Mat image = imread(in_loc, CV_LOAD_IMAGE_COLOR);
         if(image.empty()){
-            printf("Empty or bad file: %s\n", in_loc);
+            printf("Empty or bad file\n");
+            break;
         }
 
         const int rows = image.rows;
@@ -173,8 +176,7 @@ int main(int argc, char **argv){
         vector <Rect> faceDetections;
         faceDetector.detectMultiScale(image, faceDetections);
 
-        if(faceDetections.size() > 0 ){ //might not need this statement
-            // printf("Face found in frame %s\n", f_names[i] );
+        if( faceDetections.size() > 0){ //TODO: remove >0...unnecessary
             face_found[i] = 1;
             for ( vector <Rect>::iterator rect_iter = faceDetections.begin(); rect_iter != faceDetections.end(); ++rect_iter) {
                 apply_blur(10, 1024.0, rect_iter->x, rect_iter->y, rect_iter->x + rect_iter->width, rect_iter->y + rect_iter->height, rows, cols, inPixels, outPixels);
@@ -200,10 +202,10 @@ int main(int argc, char **argv){
     }
     clock_gettime(CLOCK_MONOTONIC,&end_time);
     long msec = (end_time.tv_sec - start_time.tv_sec)*1000 + (end_time.tv_nsec - start_time.tv_nsec)/1000000;
-    printf("omp took %dms\n", msec);
+    printf("serial took %dms\n", msec);
 
     char out_faces[256];
-    sprintf(out_faces, "%s/cilk_faces.txt", argv[2]);
+    sprintf(out_faces, "%s/ser_faces.txt", argv[2]);
     FILE *faces = fopen(out_faces, "w");
     for(int i = 0; i < count; i++) {
         fprintf(faces, "%d: %s\n", face_found[i], f_names[i]);

@@ -146,7 +146,7 @@ int main(int argc, char **argv){
     #pragma omp parallel for
     for(int i = 0; i < count; i++){
         // Obtained from: https://github.com/opencv/opencv/blob/master/data/haarcascades/haarcascade_frontalface_alt.xml
-        CascadeClassifier faceDetector = CascadeClassifier("haarcascade_frontalface_alt.xml");
+        CascadeClassifier faceDetector = CascadeClassifier("input/haarcascade_frontalface_alt.xml");
         char in_loc[256];
         sprintf(in_loc, "%s/%s", argv[1], f_names[i]);
         // printf(in_loc);

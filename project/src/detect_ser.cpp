@@ -142,7 +142,7 @@ int main(int argc, char **argv){
     clock_gettime(CLOCK_MONOTONIC,&start_time);
     for(int i = 0; i < count; i++){
         // Obtained from: https://github.com/opencv/opencv/blob/master/data/haarcascades/haarcascade_frontalface_alt.xml
-        CascadeClassifier faceDetector = CascadeClassifier("haarcascade_frontalface_alt.xml");
+        CascadeClassifier faceDetector = CascadeClassifier("input/haarcascade_frontalface_alt.xml");
 
         // if( !(i%50) ) { //(i%100 == 0) {
         //     printf("Processed %d frames\n", i);

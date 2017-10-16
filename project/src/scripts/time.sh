@@ -1,26 +1,26 @@
 cd 2serial_out
 rm *.png
 cd ..
-./detect_ser input serial_out
+./bin/detect_ser 2input 2serial_out
 cd 2serial_out
 rm *.png
 cd ..
-./detect_ser input serial_out
+./bin/detect_ser 2input 2serial_out
 
 cd 2omp_out
 rm *.png
 cd ..
-./detect_omp input omp_out
+./bin/detect_omp 2input 2omp_out
 cd 2omp_out
 rm *.png
 cd ..
-./detect_omp input omp_out
+./bin/detect_omp 2input 2omp_out
 
 cd 2cilk_out
 rm *.png
 cd ..
-./detect_cilk input cilk_out
+./detect_cilk 2input 2cilk_out
 cd 2cilk_out
 rm *.png
 cd ..
-./detect_cilk input cilk_out
+./bin/detect_cilk 2input 2cilk_out

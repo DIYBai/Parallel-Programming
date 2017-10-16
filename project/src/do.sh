@@ -17,4 +17,4 @@ rm *.png
 cd ..
 ./detect_cilk input cilk_out
 
-bash write_to_video.sh
+bash write_to_video.sh > misc.txt

@@ -1,11 +1,4 @@
 #include "inclusion.hpp"
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <dirent.h>
-#include <time.h>
-#include <cmath>
-#include <iostream>
 #include <cilk/cilk.h>
 
 using namespace cv;

@@ -1,11 +1,4 @@
 #include "inclusion.hpp"
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <dirent.h>
-#include <time.h>
-#include <cmath>
-#include <iostream>
 
 using namespace cv;
 using namespace std; //unsure if this is necessary/desireable

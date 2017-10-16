@@ -1,11 +1,4 @@
 #include "inclusion.hpp"
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <dirent.h>
-#include <time.h>
-#include <cmath>
-#include <iostream>
 #include <omp.h>
 
 using namespace cv;

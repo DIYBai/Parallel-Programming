@@ -1,3 +1,6 @@
+First, go to "./project/src". (The readme.txt file there is identical to this one,
+only it doesn't have these first two lines)
+
 From this directory, just type "bash setup.sh" to set up everything. "setup.sh" also
 runs the "run.sh" file, though that file can be run on its own to rerun the program.
 The last line of run.sh can be commented out if only the frame-processing is desired

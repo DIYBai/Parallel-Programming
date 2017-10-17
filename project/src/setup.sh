@@ -4,4 +4,4 @@ mkdir 12input bin 12serial_out 12omp_out 12cilk_out video_out
 bash scripts/get_frames.sh
 bash scripts/comp.sh
 
-# run.sh
+run.sh

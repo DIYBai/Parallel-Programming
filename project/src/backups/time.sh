@@ -1,3 +1,5 @@
+#move to src/scripts/
+
 cd 12serial_out
 rm *.png
 cd ..
